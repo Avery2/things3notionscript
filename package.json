@@ -1,0 +1,11 @@
+{
+  "name": "notion-example",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@notionhq/client": "^0.1.9",
+    "dotenv": "^10.0.0"
+  }
+}
