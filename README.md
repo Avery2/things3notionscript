@@ -1,4 +1,6 @@
-<!-- # Title -->
+# Things3 and Notion Script
+
+A script I wrote that takes todo items in Things3 and writes them to a Notion database.
 
 ## Worked
 
