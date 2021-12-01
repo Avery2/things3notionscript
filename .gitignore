@@ -2,3 +2,4 @@
 .env
 .Rhistory
 node_modules/
+__pycache__/
