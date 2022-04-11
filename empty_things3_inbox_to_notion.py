@@ -17,9 +17,7 @@ def addContentToBlock(block_id, content: list, padded=True):
 
 if __name__ == '__main__':
     # setup
-    my_key = os.getenv("DB_ID")
     my_token = os.getenv("NOTION_TOKEN")
-    tokenv2 = os.getenv("TOKEN_V2")
     notion = Client(auth=my_token)
     inbox = things.inbox()
 
