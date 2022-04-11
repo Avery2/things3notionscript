@@ -18,4 +18,4 @@ https://github.com/ramnes/notion-sdk-py
 - https://developers.notion.com/reference/block
 - https://developers.notion.com/reference/patch-block-children
 - https://developers.notion.com/docs/working-with-page-content#appending-blocks-to-a-page
-- also looking at `api_endpoings`
+- also looking at `api_endpoints.py`
