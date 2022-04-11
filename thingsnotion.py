@@ -15,6 +15,9 @@ def getProject(project_title: str):
         project = [p for p in all_projects if p["title"] == project_title][0]
         return project
 
+def getInbox():
+    return things.inbox()
+
 def title_notes(project):
     todos = things.todos(project["uuid"])
     l = []
@@ -54,7 +57,6 @@ def create_empty_page(client, parent_db, title=None):
 
     return created_page
 
-
 def create_heading(content, level=1):
     level = min(level, 3)
     return {
@@ -74,21 +76,20 @@ def create_heading(content, level=1):
 
 def create_paragraph(content):
     return {
-        "object": 'block',
-        "type": 'paragraph',
+        # "object": 'block',
+        # "type": 'paragraph',
         "paragraph": {
-            "text": [
+            "rich_text": [
               {
                   "type": 'text',
                   "text": {
                       "content": content,
-                    #   "link": {
-                    #       "url": 'https://en.wikipedia.org/wiki/Lacinato_kale',
-                    #   },
+                      "link": None
                   },
               },
             ],
         },
+        # "children": []
     }
 
 def parse_markdown_to_arr(md):
