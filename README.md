@@ -1,21 +1,16 @@
 # Things3 and Notion Script
 
-A script I wrote that takes todo items in Things3 and writes them to a Notion database.
+## `.env` file setup
 
-UPDATE: only `empty_things3_inbox_to_notion.py` is working, which take a block id and takes all empty things3 inbox items and copies them to that block (or page).
+Set variable `NOTION_TOKEN` to your [secret token](https://developers.notion.com/docs/authorization).
 
-## Worked
+## Scripts
 
-https://github.com/thingsapi/things.py#documentation
+- `empty_things3_inbox_to_notion.py`: takes a block id (i.e. `bf14e6e54b74464db2d2483e114455a6`) and takes all empty things3 inbox items and copies them to that block (or page). Created because I write notes using Things3 quick capture and markdown support, and mark them as a note by having no name for the todo item.
 
-https://developers.notion.com/docs/getting-started
+## References
 
-This is the one that worked. It follows the official API so I think it's more reliable.
-https://github.com/ramnes/notion-sdk-py
-
-## More (maybe) helpful links
-
-- https://developers.notion.com/reference/block
-- https://developers.notion.com/reference/patch-block-children
-- https://developers.notion.com/docs/working-with-page-content#appending-blocks-to-a-page
+- [Things3 python library](https://github.com/thingsapi/things.py#documentation)
+- [Notion API docs](https://developers.notion.com/docs/getting-started)
+- [Notion python sdk](https://github.com/ramnes/notion-sdk-py)
 - also looking at `api_endpoints.py`
