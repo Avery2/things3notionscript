@@ -13,10 +13,6 @@ https://developers.notion.com/docs/getting-started
 This is the one that worked. It follows the official API so I think it's more reliable.
 https://github.com/ramnes/notion-sdk-py
 
-## Tried
-
-https://github.com/jamalex/notion-py
-
 ## More (maybe) helpful links
 
 - https://developers.notion.com/reference/block
