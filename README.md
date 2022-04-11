@@ -2,6 +2,8 @@
 
 A script I wrote that takes todo items in Things3 and writes them to a Notion database.
 
+UPDATE: only `empty_things3_inbox_to_notion.py` is working, which take a block id and takes all empty things3 inbox items and copies them to that block (or page).
+
 ## Worked
 
 https://github.com/thingsapi/things.py#documentation
