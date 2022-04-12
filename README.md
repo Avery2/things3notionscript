@@ -2,7 +2,10 @@
 
 ## `.env` file setup
 
-Set variable `NOTION_TOKEN` to your [secret token](https://developers.notion.com/docs/authorization).
+Setup the `.env` file, then you can use the scripts.
+
+- Get a [secret token](https://developers.notion.com/docs/authorization) from an [Notion integration](https://www.notion.so/help/create-integrations-with-the-notion-api).
+- Set variable `NOTION_TOKEN` equal to your secret token.
 
 ## Scripts
 
@@ -13,4 +16,4 @@ Set variable `NOTION_TOKEN` to your [secret token](https://developers.notion.com
 - [Things3 python library](https://github.com/thingsapi/things.py#documentation)
 - [Notion API docs](https://developers.notion.com/docs/getting-started)
 - [Notion python sdk](https://github.com/ramnes/notion-sdk-py)
-- also looking at `api_endpoints.py`
+  - often referenced `api_endpoints.py`
