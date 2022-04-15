@@ -47,7 +47,10 @@ if __name__ == '__main__':
             break
         print("Invalid response. Type 'y' or 'n'")
         
+    num_written = 0
     if write_to_notion:
         # write to notion
         for note in notes_dict:
             addContentToBlock(block_id, note)
+            num_written += 1
+    print(f"Wrote to {num_written} blocks.")
