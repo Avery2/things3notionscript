@@ -29,6 +29,10 @@ pip3 install python-dotenv
 
 ### download 
 
+```
+pip3 install notion-client
+```
+
 ## References
 
 - [Things3 python library](https://github.com/thingsapi/things.py#documentation)
