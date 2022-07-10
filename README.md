@@ -13,7 +13,12 @@ Setup the `.env` file, then you can use the scripts.
 
 ## Setup
 
-- download `things`
+### download `things`
+```
+$ pip3 install things.py
+# or
+$ git clone https://github.com/thingsapi/things.py && cd things.py && make install
+```
 
 ## References
 
