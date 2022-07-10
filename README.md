@@ -6,6 +6,7 @@ Setup the `.env` file, then you can use the scripts.
 
 - Get a [secret token](https://developers.notion.com/docs/authorization) from an [Notion integration](https://www.notion.so/help/create-integrations-with-the-notion-api).
 - Set variable `NOTION_TOKEN` equal to your secret token.
+- [ ] TODO: Add instruction for Things3 DB ID
 
 ## Scripts
 
