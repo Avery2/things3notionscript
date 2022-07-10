@@ -24,9 +24,10 @@ $ git clone https://github.com/thingsapi/things.py && cd things.py && make insta
 ### download `dotenv`
 
 ```
-# install locally (recommended)
-npm install dotenv --save
+pip3 install python-dotenv
 ```
+
+### download 
 
 ## References
 
