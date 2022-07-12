@@ -10,9 +10,11 @@ def addParagraphToBlock(block_id, paragraph_content):
     block = tn.create_paragraph(paragraph_content)
     notion.blocks.children.append(block_id, children=[block])
 
-def addContentToBlock(block_id, content: list, padded=True):
+def addContentToBlock(block_id, content: list, *, padded=True, blank_header=False):
     if padded:
         content = [tn.create_paragraph("")] + content + [tn.create_paragraph("")]
+        if blank_header:
+            content = [tn.create_heading("")] + content
     notion.blocks.children.append(block_id, children=content)
 
 def promptYN(prompt):
@@ -49,13 +51,11 @@ if __name__ == '__main__':
     notes_raw = [obj['notes'] for obj in blank_items]
     notes_dict = [tn.obj_from_md(o) for o in notes_raw]
 
-    write_to_notion = None
-    write_to_notion = promptYN("Write to notion?")
+    add_empty_headers = promptYN("Add empty headers when necessary?")
         
     num_written = 0
-    if write_to_notion:
-        # write to notion
-        for note in notes_dict:
-            addContentToBlock(block_id, note)
-            num_written += 1
+    # write to notion
+    for note in notes_dict:
+        addContentToBlock(block_id, note, blank_header=True)
+        num_written += 1
     print(f"Wrote to {num_written} blocks.")
