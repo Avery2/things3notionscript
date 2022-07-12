@@ -40,3 +40,4 @@ pip3 install notion-client
 - [Notion API docs](https://developers.notion.com/docs/getting-started)
 - [Notion python sdk](https://github.com/ramnes/notion-sdk-py)
   - often referenced `api_endpoints.py`
+- `chmod a+x empty_things3_inbox_to_notion.command`
