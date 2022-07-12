@@ -15,6 +15,20 @@ def addContentToBlock(block_id, content: list, padded=True):
         content = [tn.create_paragraph("")] + content + [tn.create_paragraph("")]
     notion.blocks.children.append(block_id, children=content)
 
+def promptYN(prompt):
+    response = False
+    while True:
+        print(f"{prompt} [y/n] ", end='')
+        res = input().lower().strip()
+        if res == 'y':
+            response = True
+            break
+        if res == 'n':
+            response = False
+            break
+        print("Invalid response. Type 'y' or 'n'")
+    return response
+
 if __name__ == '__main__':
     # setup
     my_token = os.getenv("NOTION_TOKEN")
@@ -36,16 +50,7 @@ if __name__ == '__main__':
     notes_dict = [tn.obj_from_md(o) for o in notes_raw]
 
     write_to_notion = None
-    while True:
-        print("Write to notion? [y/n] ", end='')
-        res = input().lower().strip()
-        if res == 'y':
-            write_to_notion = True
-            break
-        if res == 'n':
-            write_to_notion = False
-            break
-        print("Invalid response. Type 'y' or 'n'")
+    write_to_notion = promptYN("Write to notion?")
         
     num_written = 0
     if write_to_notion:
