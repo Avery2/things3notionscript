@@ -12,10 +12,10 @@ def addParagraphToBlock(block_id, paragraph_content):
 
 def addContentToBlock(block_id, content: list, *, padded=True, blank_header=False):
     if padded:
-        content = [tn.create_paragraph("")] + content + [tn.create_paragraph("")]
-        if blank_header:
-            content = [tn.create_heading("")] + content
-    notion.blocks.children.append(block_id, children=content)
+        content_ = [tn.create_paragraph("")] + content + [tn.create_paragraph("")]
+        if blank_header and not tn.objIsHeader(content[0]):
+            content_ = [tn.create_heading("")] + content
+    notion.blocks.children.append(block_id, children=content_)
 
 def promptYN(prompt):
     response = False
@@ -45,10 +45,16 @@ if __name__ == '__main__':
         block_id = re.match(r'[a-zA-Z\d]{32}', block_id)[0]
         if not block_id:
             print("Invalid ID")
+        
+    migrate_empty_titles = promptYN("Migrate todo items with no title")
+    migrate_full_titles = promptYN("Migrate todo items with a title")
 
     # empty named todo items in Things3 inbox
-    blank_items = [todo for todo in inbox if todo['title'] == '']
-    notes_raw = [obj['notes'] for obj in blank_items]
+    blank_items = [todo for todo in inbox if ((migrate_empty_titles and todo['title'] == '') or (migrate_full_titles and todo['title'] != ''))]
+    if migrate_full_titles:
+        notes_raw = ['# ' + obj['title'] + '\n' + obj['notes'] for obj in blank_items]
+    else:
+        notes_raw = [obj['notes'] for obj in blank_items]
     notes_dict = [tn.obj_from_md(o) for o in notes_raw]
 
     add_empty_headers = promptYN("Add empty headers when necessary?")
@@ -56,6 +62,6 @@ if __name__ == '__main__':
     num_written = 0
     # write to notion
     for note in notes_dict:
-        addContentToBlock(block_id, note, blank_header=True)
+        addContentToBlock(block_id, note, blank_header=add_empty_headers)
         num_written += 1
     print(f"Wrote to {num_written} blocks.")

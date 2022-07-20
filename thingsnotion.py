@@ -95,10 +95,18 @@ def create_paragraph(content):
 def parse_markdown_to_arr(md):
     return [x for x in md.split("\n") if x]
 
+def stringIsHeader(a):
+    if a:
+        return a[0] == "#"
+    return False
+
+def objIsHeader(obj):
+    return "heading" in obj['type']
+
 def parse_arr_to_obj(arr):
     btype = []
     for a in arr:
-        if a[0] == "#":
+        if stringIsHeader(a):
             btype.append(f"h{a[:3].count('#')}")
         else:
             btype.append("p")
