@@ -13,7 +13,7 @@ def addParagraphToBlock(block_id, paragraph_content):
 def addContentToBlock(block_id, content: list, *, padded=True, blank_header=False):
     if padded:
         content_ = [tn.create_paragraph("")] + content + [tn.create_paragraph("")]
-        if blank_header and not tn.objIsHeader(content[0]):
+        if blank_header and content and not tn.objIsHeader(content[0]):
             content_ = [tn.create_heading("")] + content
     notion.blocks.children.append(block_id, children=content_)
 
