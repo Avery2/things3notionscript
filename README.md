@@ -30,7 +30,7 @@ download `notion_client`
 pip3 install notion-client
 ```
 
-### `.env` file setup
+### `.env` setup
 
 Setup the `.env` file, then you can use the scripts.
 
