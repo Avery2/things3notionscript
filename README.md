@@ -2,7 +2,9 @@
 
 ## Scripts
 
-- `empty_things3_inbox_to_notion.py`: takes a block id (i.e. `bf14e6e54b74464db2d2483e114455a6`) and takes all empty things3 inbox items and copies them to that block (or page). Created because I write notes using Things3 quick capture and markdown support, and mark them as a note by having no name for the todo item.
+### `empty_things3_inbox_to_notion.py`
+  - Takes a block id (i.e. `bf14e6e54b74464db2d2483e114455a6`) and takes all empty things3 inbox items and copies them to that block (or page). You can get this link with `command + L` or from the end of the Notion URL.
+  - Created because I write notes using Things3 quick capture and markdown support, and mark them as a note by having no name for the todo item.
 
 ## Setup
 
