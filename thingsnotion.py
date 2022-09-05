@@ -7,7 +7,6 @@ import time
 load_dotenv()
 my_key = os.getenv("DB_ID")
 my_token = os.getenv("NOTION_TOKEN")
-tokenv2 = os.getenv("TOKEN_V2")
 
 def getProject(project_title: str):
         """Returns a project of the given name"""
@@ -110,7 +109,7 @@ def parse_arr_to_obj(arr):
             btype.append(f"h{a[:3].count('#')}")
         else:
             btype.append("p")
-    
+
     obj_ = []
     for c, t in zip(arr, btype):
         if t[0] == "h":
