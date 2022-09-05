@@ -100,7 +100,9 @@ def stringIsHeader(a):
     return False
 
 def objIsHeader(obj):
-    return "heading" in obj['type']
+    if 'type' in obj:
+        return "heading" in obj['type']
+    return False
 
 def parse_arr_to_obj(arr):
     btype = []
