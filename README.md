@@ -51,5 +51,4 @@ Setup the `.env` file, then you can use the scripts.
 
 - [Things3 python library](https://github.com/thingsapi/things.py#documentation)
 - [Notion API docs](https://developers.notion.com/docs/getting-started)
-- [Notion python sdk](https://github.com/ramnes/notion-sdk-py)
-  - often referenced `api_endpoints.py
+- [Notion python sdk](https://github.com/ramnes/notion-sdk-py) (most used in `api_endpoints.py)
