@@ -45,7 +45,7 @@ if __name__ == '__main__':
         block_id = re.match(r'[a-zA-Z\d]{32}', block_id)[0]
         if not block_id:
             print("Invalid ID")
-        
+
     migrate_empty_titles = promptYN("Migrate todo items with no title")
     migrate_full_titles = promptYN("Migrate todo items with a title")
 
@@ -58,7 +58,7 @@ if __name__ == '__main__':
     notes_dict = [tn.obj_from_md(o) for o in notes_raw]
 
     add_empty_headers = promptYN("Add empty headers when necessary?")
-        
+
     num_written = 0
     # write to notion
     for note in notes_dict:

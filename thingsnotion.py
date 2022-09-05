@@ -62,7 +62,7 @@ def create_heading(content, level=1):
         "object": 'block',
         "type": f"heading_{level}",
         f"heading_{level}": {
-            "text": [
+            "rich_text": [
               {
                   "type": 'text',
                   "text": {
