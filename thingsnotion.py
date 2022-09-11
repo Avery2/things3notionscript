@@ -73,10 +73,31 @@ def create_heading(content, level=1):
         },
     }
 
+def create_callout_block(title='', children=[]):
+    emoji = '👉'
+    return {
+        "object": 'block',
+        "type": 'callout',
+        "has_children": True,
+        "callout": {
+            "rich_text": [{
+                "type": "text",
+                "text": {
+                    "content": title,
+                },
+                }],
+                "icon": {
+                "emoji": emoji
+            },
+            "color": "default",
+            "children": children
+        },
+    }
+
 def create_paragraph(content):
     return {
-        # "object": 'block',
-        # "type": 'paragraph',
+        "object": 'block',
+        "type": 'paragraph',
         "paragraph": {
             "rich_text": [
               {
@@ -87,8 +108,8 @@ def create_paragraph(content):
                   },
               },
             ],
-        },
         # "children": []
+        },
     }
 
 def parse_markdown_to_arr(md):

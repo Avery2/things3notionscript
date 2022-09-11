@@ -10,8 +10,10 @@ def addParagraphToBlock(block_id, paragraph_content):
     block = tn.create_paragraph(paragraph_content)
     notion.blocks.children.append(block_id, children=[block])
 
-def addContentToBlock(block_id, content: list, *, padded=True, blank_header=False):
-    if padded:
+def addContentToBlock(block_id, content: list, *, padded=True, blank_header=False, as_callouts=False):
+    if as_callouts:
+        content_ = [tn.create_callout_block(title="", children=content)]
+    elif padded:
         content_ = [tn.create_paragraph("")] + content + [tn.create_paragraph("")]
         if blank_header and content and not tn.objIsHeader(content[0]):
             content_ = [tn.create_heading("")] + content
@@ -57,11 +59,14 @@ if __name__ == '__main__':
         notes_raw = [obj['notes'] for obj in blank_items]
     notes_dict = [tn.obj_from_md(o) for o in notes_raw]
 
-    add_empty_headers = promptYN("Add empty headers when necessary?")
+    as_callouts = promptYN("Add empty headers when necessary?")
+    if not as_callouts:
+        add_empty_headers = promptYN("Add empty headers when necessary?")
 
     num_written = 0
     # write to notion
     for note in notes_dict:
-        addContentToBlock(block_id, note, blank_header=add_empty_headers)
+        addContentToBlock(block_id, note, blank_header=add_empty_headers, as_callouts=as_callouts)
         num_written += 1
-    print(f"Wrote to {num_written} blocks.")
+
+    print(f"Wrote {num_written} objects.")
