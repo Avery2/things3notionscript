@@ -59,7 +59,8 @@ if __name__ == '__main__':
         notes_raw = [obj['notes'] for obj in blank_items]
     notes_dict = [tn.obj_from_md(o) for o in notes_raw]
 
-    as_callouts = promptYN("Add empty headers when necessary?")
+    as_callouts = promptYN("Migrate as callout blocks?")
+    add_empty_headers = False
     if not as_callouts:
         add_empty_headers = promptYN("Add empty headers when necessary?")
 
