@@ -42,8 +42,8 @@ if __name__ == '__main__':
     block_id = ''
     # example id: ede03723649543a3a4cedc3065faaa8f
     while not block_id:
-        print("Input block ID: ", end='')
-        block_id = input().strip()
+        print("Input block ID or URL: ", end='')
+        block_id = input().strip().split("-")[-1]
         block_id = re.match(r'[a-zA-Z\d]{32}', block_id)[0]
         if not block_id:
             print("Invalid ID")
