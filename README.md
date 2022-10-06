@@ -52,3 +52,39 @@ Setup the `.env` file, then you can use the scripts.
 - [Things3 python library](https://github.com/thingsapi/things.py#documentation)
 - [Notion API docs](https://developers.notion.com/docs/getting-started)
 - [Notion python sdk](https://github.com/ramnes/notion-sdk-py) (most used in `api_endpoints.py`)
+
+## Screenshots
+
+<details><summary>Screenshots to illustrate journey</summary>
+
+<div align="center">
+<img width="1840" alt="image" src="https://user-images.githubusercontent.com/53503018/194209594-50fc1ac6-993c-4f3f-94cd-2204f794c07c.png">
+<p>Caption</p>
+</div>
+
+<div align="center">
+<img width="1840" alt="image" src="https://user-images.githubusercontent.com/53503018/194209675-8ae09dc6-21ee-4500-9cde-35365c9aefe4.png">
+<p>Caption</p>
+</div>
+
+<div align="center">
+<img width="690" alt="image" src="https://user-images.githubusercontent.com/53503018/194209712-57165b79-262e-4c66-907f-21a771fb3f90.png">
+<p>Caption</p>
+</div>
+
+<div align="center">
+<img width="1840" alt="image" src="https://user-images.githubusercontent.com/53503018/194209916-b5c20ba8-a708-4ced-95fd-43e145a4edab.png">
+<p>Caption</p>
+</div>
+
+<div align="center">
+<img width="1840" alt="image" src="https://user-images.githubusercontent.com/53503018/194210014-95f91c71-4b05-483d-84fd-7c39077ca6f6.png">
+<p>Caption</p>
+</div>
+
+<div align="center">
+<img width="1840" alt="image" src="https://user-images.githubusercontent.com/53503018/194210114-0e3b1e03-e05f-4f86-81f9-601a46e929f9.png">
+<p>Caption</p>
+</div>
+
+</details>
