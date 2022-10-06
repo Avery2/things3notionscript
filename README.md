@@ -64,7 +64,7 @@ Setup the `.env` file, then you can use the scripts.
 
 <div align="center">
 <img width="1840" alt="image" src="https://user-images.githubusercontent.com/53503018/194209675-8ae09dc6-21ee-4500-9cde-35365c9aefe4.png">
-<p>Create new Notion page and copy link with `command + L`</p>
+  <p>Create new Notion page and copy link with <code>command + L</code></p>
 </div>
 
 <div align="center">
