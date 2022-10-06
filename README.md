@@ -16,7 +16,7 @@ Part of my workflow using Things3 and Notion. I write all my notes in Things3's 
 
 <div align="center">
 <img width="690" alt="image" src="https://user-images.githubusercontent.com/53503018/194209712-57165b79-262e-4c66-907f-21a771fb3f90.png">
-<p>Strip the ID from the link using Things3's [quick capture](https://culturedcode.com/things/support/articles/2249437/) as a place to edit text. This is also how I wrote all the notes.</p>
+  <p>Strip the ID from the link using Things3's <a href="https://culturedcode.com/things/support/articles/2249437/">quick capture</a> as a place to edit text. This is also how I wrote all the notes.</p>
 </div>
 
 <div align="center">
