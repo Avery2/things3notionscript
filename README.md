@@ -52,6 +52,7 @@ Setup the `.env` file, then you can use the scripts.
 - [Things3 python library](https://github.com/thingsapi/things.py#documentation)
 - [Notion API docs](https://developers.notion.com/docs/getting-started)
 - [Notion python sdk](https://github.com/ramnes/notion-sdk-py) (most used in `api_endpoints.py`)
+- Why I like [quick capture](https://culturedcode.com/things/support/articles/2249437/) so much: to [Close open loops](https://notes.andymatuschak.org/z8d4eJNaKrVDGTFpqRnQUPRkexB7K6XbcffAV)
 
 ## Screenshots
 
