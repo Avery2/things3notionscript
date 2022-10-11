@@ -53,6 +53,7 @@ if __name__ == '__main__':
 
     migrate_empty_titles = promptYN("Migrate todo items with no title", True)
     # migrate_full_titles = promptYN("Migrate todo items with a title")
+    migrate_full_titles = False
 
     # empty named todo items in Things3 inbox
     blank_items = [todo for todo in inbox if ((migrate_empty_titles and todo['title'] == '') or (migrate_full_titles and todo['title'] != ''))]
