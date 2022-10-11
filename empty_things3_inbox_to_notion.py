@@ -19,7 +19,10 @@ def addContentToBlock(block_id, content: list, *, padded=True, blank_header=Fals
             content_ = [tn.create_heading("")] + content
     notion.blocks.children.append(block_id, children=content_)
 
-def promptYN(prompt):
+
+def promptYN(prompt, override):
+    if override:
+        return override
     response = False
     while True:
         print(f"{prompt} [y/n] ", end='')
@@ -48,8 +51,8 @@ if __name__ == '__main__':
         if not block_id:
             print("Invalid ID")
 
-    migrate_empty_titles = promptYN("Migrate todo items with no title")
-    migrate_full_titles = promptYN("Migrate todo items with a title")
+    migrate_empty_titles = promptYN("Migrate todo items with no title", True)
+    migrate_full_titles = promptYN("Migrate todo items with a title", False)
 
     # empty named todo items in Things3 inbox
     blank_items = [todo for todo in inbox if ((migrate_empty_titles and todo['title'] == '') or (migrate_full_titles and todo['title'] != ''))]
@@ -59,7 +62,7 @@ if __name__ == '__main__':
         notes_raw = [obj['notes'] for obj in blank_items]
     notes_dict = [tn.obj_from_md(o) for o in notes_raw]
 
-    as_callouts = promptYN("Migrate as callout blocks?")
+    as_callouts = promptYN("Migrate as callout blocks?", True)
     add_empty_headers = False
     if not as_callouts:
         add_empty_headers = promptYN("Add empty headers when necessary?")
