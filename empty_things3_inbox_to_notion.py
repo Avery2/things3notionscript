@@ -20,9 +20,9 @@ def addContentToBlock(block_id, content: list, *, padded=True, blank_header=Fals
     notion.blocks.children.append(block_id, children=content_)
 
 
-def promptYN(prompt, override):
-    if override:
-        return override
+def promptYN(prompt, overrideAsTrue):
+    if overrideAsTrue:
+        return overrideAsTrue
     response = False
     while True:
         print(f"{prompt} [y/n] ", end='')
@@ -52,7 +52,7 @@ if __name__ == '__main__':
             print("Invalid ID")
 
     migrate_empty_titles = promptYN("Migrate todo items with no title", True)
-    migrate_full_titles = promptYN("Migrate todo items with a title", False)
+    # migrate_full_titles = promptYN("Migrate todo items with a title")
 
     # empty named todo items in Things3 inbox
     blank_items = [todo for todo in inbox if ((migrate_empty_titles and todo['title'] == '') or (migrate_full_titles and todo['title'] != ''))]
