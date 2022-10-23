@@ -73,6 +73,12 @@ download `notion_client`
 pip3 install notion-client
 ```
 
+download library to call applescript:
+
+```
+pip3 install pyobjc
+```
+
 ### `.env` setup
 
 Setup the `.env` file, then you can use the scripts.

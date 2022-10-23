@@ -74,4 +74,5 @@ if __name__ == '__main__':
         addContentToBlock(block_id, note, blank_header=add_empty_headers, as_callouts=as_callouts)
         num_written += 1
 
+    tn.deleteBlankInboxItems()
     print(f"Wrote {num_written} objects.")

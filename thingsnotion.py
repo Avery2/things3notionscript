@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from notion_client import Client
 import time
+from Foundation import NSAppleScript
 
 load_dotenv()
 my_key = os.getenv("DB_ID")
@@ -144,3 +145,22 @@ def parse_arr_to_obj(arr):
 def obj_from_md(md):
     pmd = parse_markdown_to_arr(md)
     return parse_arr_to_obj(pmd)
+
+def deleteBlankInboxItems():
+    """Deletes all inbox items without a name, using applescripts"""
+    s = NSAppleScript.alloc().initWithSource_("""tell application "Things3"
+        set inboxToDos to to dos of list "Inbox"
+        repeat with inboxToDo in inboxToDos
+            if name of inboxToDo equals ""
+                move inboxToDo to list "Trash"
+            end if
+        end repeat
+    end tell""")
+    print(f"error(s): {s.executeAndReturnError_(None)}")
+
+def createNewTodo(name="New to do [made by script]"):
+    """Create a new todo of name `name`, using applescripts"""
+    s = NSAppleScript.alloc().initWithSource_(f"""tell application "Things3"
+        set newToDo to make new to do with properties \{name:"{name}"\}
+    end tell""")
+    print(f"error(s): {s.executeAndReturnError_(None)}")
