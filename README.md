@@ -80,6 +80,10 @@ Setup the `.env` file, then you can use the scripts.
 - Get a [secret token](https://developers.notion.com/docs/authorization) from an [Notion integration](https://www.notion.so/help/create-integrations-with-the-notion-api).
 - Set variable `NOTION_TOKEN` equal to your secret token.
 
+### Alfred workflow
+
+Assumes a local version of this repository is in `~/Library/Application Support/Alfred/Alfred.alfredpreferences/workflows/things3notionscript`.
+
 ## References
 
 - [Things3 python library](https://github.com/thingsapi/things.py#documentation)
