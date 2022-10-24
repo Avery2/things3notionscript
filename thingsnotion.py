@@ -8,6 +8,7 @@ from Foundation import NSAppleScript
 load_dotenv()
 my_key = os.getenv("DB_ID")
 my_token = os.getenv("NOTION_TOKEN")
+last_url_filepath = '.lastblockid'
 
 def getProject(project_title: str):
         """Returns a project of the given name"""
@@ -141,6 +142,14 @@ def parse_arr_to_obj(arr):
         else:
             obj_.append(create_paragraph(c))
     return obj_
+
+def saveLastBlockID(blockID):
+    with open(last_url_filepath, 'w') as f:
+        f.write(blockID)
+
+def getLastBlockID():
+    with open(last_url_filepath, 'r') as f:
+        return f.read()
 
 def obj_from_md(md):
     pmd = parse_markdown_to_arr(md)
