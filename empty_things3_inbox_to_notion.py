@@ -6,6 +6,10 @@ from dotenv import load_dotenv
 load_dotenv()
 import os
 import re
+import sys
+
+# this toggles if this runs as a python script to be run from terminal manually or as an alfred workflow (so CLI only)
+CLIonly = True
 
 
 def addParagraphToBlock(block_id, paragraph_content):
@@ -26,7 +30,7 @@ def addContentToBlock(
 
 
 def promptYN(prompt, overrideAsTrue):
-    if overrideAsTrue:
+    if overrideAsTrue or CLIonly:
         return overrideAsTrue
     response = False
     while True:
@@ -48,18 +52,24 @@ if __name__ == "__main__":
     notion = Client(auth=my_token)
     inbox = things.inbox()
 
+    query = None
+    if len(sys.argv) > 1:
+        query = sys.argv[1]
     block_id = ""
     # example id: ede03723649543a3a4cedc3065faaa8f
     while not block_id:
-        print("Input block ID or URL: ", end="")
-        block_id = input().strip().split("-")[-1]
+        if CLIonly:
+            query
+        else:
+            print("Input block ID or URL: ", end="")
+            block_id = input().strip().split("-")[-1]
         if not block_id:
-            block_id = tn.getLastBlockID()
+            block_id = tn.getLastBlockID(CLIonly)
         block_id = re.match(r"[a-zA-Z\d]{32}", block_id)[0]
         if not block_id:
             print(f"Invalid ID: \"{block_id}\"")
 
-    tn.saveLastBlockID(block_id)
+    tn.saveLastBlockID(block_id, CLIonly)
 
     migrate_empty_titles = promptYN("Migrate todo items with no title", True)
     # migrate_full_titles = promptYN("Migrate todo items with a title")
