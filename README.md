@@ -88,7 +88,7 @@ Setup the `.env` file, then you can use the scripts.
 
 ### Alfred workflow
 
-Assumes a local version of this repository is in `~/Library/Application Support/Alfred/Alfred.alfredpreferences/workflows/things3notionscript`.
+Assumes a local version of this repository is in `~/Library/Application Support/Alfred/Alfred.alfredpreferences/workflows/things3notionscript`. You may have to run `chmod a+x *.py` to enable the script.
 
 ## References
 
