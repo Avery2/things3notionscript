@@ -119,7 +119,7 @@ tasks_by_uuid = {
 
 for i, task in enumerate(all_tasks):
     if i % 100 == 0:
-        print(f"Parsing existing things3 task {i} of {len(all_tasks)}")
+        print(f"Syncing existing things3 task {i} of {len(all_tasks)}")
     things3_status = task['status']
     things3_deleted = False
     things3_uuid = task['uuid']
@@ -152,7 +152,7 @@ for i, task in enumerate(all_tasks):
 
 for i, (nuuid, npage) in enumerate(pages_by_uuid.items()):
     if i % 100 == 0:
-        print(f"Parsing existing notion page {i} of {len(pages_by_uuid)}")
+        print(f"Syncing existing notion page {i} of {len(pages_by_uuid)}")
 
     isPageInThings3 = nuuid in tasks_by_uuid.keys()
     if not isPageInThings3:
