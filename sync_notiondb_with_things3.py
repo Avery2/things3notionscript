@@ -86,15 +86,31 @@ TITLE_PROPERTY_ID = 'title'
 existing_notion_pages = getExistingDBPages()
 DB_PROPERTIES = getExistingDBProperties()
 
-pages_by_uuid = {
-    p['existing_notion_pages']['uuid']['rich_text']['text']['content']: p for p in existing_notion_pages
-}
+# print(existing_notion_pages[0])
+# print()
+# print(existing_notion_pages[0]['properties'])
+# print()
+# print(existing_notion_pages[0]['properties']['uuid'])
+# print()
+# print(existing_notion_pages[0]['properties']['uuid']['rich_text']['text']['content'])
+
+pages_by_uuid = {}
+for p in existing_notion_pages:
+    try:
+        myKey = p['properties']['uuid']['plain_text']
+    except:
+        myKey = p['properties']['uuid']['rich_text'][0]['plain_text']
+    finally:
+        myKey = p['properties']['uuid']['rich_text'][0]['text']['content']
+    pages_by_uuid[myKey] = p
 
 tasks_by_uuid = {
     t['uuid']: t for t in all_tasks
 }
 
-for task in all_tasks:
+for i, task in enumerate(all_tasks):
+    if i % 100 == 0:
+        print(f"Parsing existing things3 task {i}")
     things3_status = task['status']
     things3_deleted = False
     things3_uuid = task['uuid']
@@ -106,11 +122,11 @@ for task in all_tasks:
         page_id = pages_by_uuid[things3_uuid]['id']
         notion_status = pages_by_uuid[things3_uuid]['properties']['status']['checkbox']
         notion_deleted = pages_by_uuid[things3_uuid]['properties']['deleted']['checkbox']
-        notion_title = pages_by_uuid[things3_uuid]['properties']['title']['title']['text']['content']
+        notion_title = pages_by_uuid[things3_uuid]['properties']['title']['title'][0]['text']['content']
 
         # update page
         if notion_status != things3_status:
-            updateNotionPageProperty(page_id = page_id, property_id=STATUS_PROPERTY_ID, value=things3_status)
+            updateNotionPageProperty(page_id = page_id, property_id=STATUS_PROPERTY_ID, value=things3_status in ('completed'))
         if notion_title != things3_title:
             updateNotionPageProperty(page_id = page_id, property_id=UUID_PROPERTY_ID, value=things3_title)
         if notion_deleted != things3_deleted:
@@ -123,7 +139,9 @@ for task in all_tasks:
             'title': things3_title
         })
 
-for nuuid, npage in pages_by_uuid.items():
+for i, (nuuid, npage) in enumerate(pages_by_uuid.items()):
+    if i % 100 == 0:
+        print(f"Parsing existing notion page {i}")
 
     isPageInThings3 = nuuid in tasks_by_uuid.keys()
     if not isPageInThings3:
