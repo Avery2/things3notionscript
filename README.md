@@ -54,7 +54,12 @@ Part of my workflow using Things3 and Notion. I write all my notes in Things3's 
 
 #### Description
 
-One-way sync from things3 to a specified notion database.
+One-way sync from things3 to a specified notion database. So that you can have context and notes in Notion, but track progress metadata in Things3.
+
+<details><summary>Screenshot of resulting Notion database [click to expand]</summary>
+  <img width="1840" alt="image" src="https://user-images.githubusercontent.com/53503018/200147235-30ffb84a-621e-4f44-829a-a6789b52bb1e.png">
+</details>
+
 
 #### Instructions
 
