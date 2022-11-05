@@ -49,6 +49,17 @@ Part of my workflow using Things3 and Notion. I write all my notes in Things3's 
   - Use this to enable permissions for the script (I run it as a `.command` file so I can double click it. See [this](https://superuser.com/questions/966946/how-to-run-python-script-in-a-terminal-window-by-double-clicking-it).)
     - `chmod a+x empty_things3_inbox_to_notion.py`
   - Run the script with `python3 empty_things3_inbox_to_notion.py`
+
+### `sync_notiondb_with_things3.py`
+
+#### Description
+
+One-way sync from things3 to a specified notion database.
+
+#### Instructions
+
+todo
+
 ## Setup
 
 ### Library installs
