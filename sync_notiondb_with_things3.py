@@ -117,6 +117,8 @@ tasks_by_uuid = {
     t['uuid']: t for t in all_tasks
 }
 
+pages_by_uuid_set = set(pages_by_uuid.keys())
+
 for i, task in enumerate(all_tasks):
     if i % 100 == 0:
         print(f"Syncing existing things3 task {i} of {len(all_tasks)}")
@@ -127,7 +129,7 @@ for i, task in enumerate(all_tasks):
     if not things3_title and SKIP_NO_TITLE_THINGS3:
         continue
 
-    isTaskInNotion = things3_uuid in pages_by_uuid.keys()
+    isTaskInNotion = things3_uuid in pages_by_uuid_set
 
     if isTaskInNotion:
         page_id = pages_by_uuid[things3_uuid]['id']
@@ -151,6 +153,7 @@ for i, task in enumerate(all_tasks):
         })
 
 for i, (nuuid, npage) in enumerate(pages_by_uuid.items()):
+    print(f"{i=} {nuuid=} npage=[not shown]")
     if i % 100 == 0:
         print(f"Syncing existing notion page {i} of {len(pages_by_uuid)}")
 
