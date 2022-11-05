@@ -4,7 +4,12 @@ from notion_client import Client
 import os
 from typing import Union, TypedDict, Optional
 
-all_tasks = [t for t in things.tasks(status=None)]
+SKIP_COMPLETED = False
+SKIP_NO_TITLE_THINGS3 = True
+if SKIP_COMPLETED:
+    all_tasks = [t for t in things.tasks()]
+else:
+    all_tasks = [t for t in things.tasks(status=None)]
 load_dotenv()
 # my_key = os.getenv("DB_ID")
 NOTION_TOKEN = os.getenv("NOTION_TOKEN")
@@ -115,6 +120,8 @@ for i, task in enumerate(all_tasks):
     things3_deleted = False
     things3_uuid = task['uuid']
     things3_title = task['title']
+    if not things3_title and SKIP_NO_TITLE_THINGS3:
+        continue
 
     isTaskInNotion = things3_uuid in pages_by_uuid.keys()
 
