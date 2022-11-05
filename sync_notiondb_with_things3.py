@@ -104,11 +104,17 @@ for task in all_tasks:
 
     if isTaskInNotion:
         page_id = pages_by_uuid[things3_uuid]['id']
+        notion_status = pages_by_uuid[things3_uuid]['properties']['status']['checkbox']
+        notion_deleted = pages_by_uuid[things3_uuid]['properties']['deleted']['checkbox']
+        notion_title = pages_by_uuid[things3_uuid]['properties']['title']['title']['text']['content']
+
         # update page
-        updateNotionPageProperty(page_id = page_id, property_id=STATUS_PROPERTY_ID, value=things3_status)
-        updateNotionPageProperty(page_id = page_id, property_id=UUID_PROPERTY_ID, value=things3_title)
-        updateNotionPageProperty(page_id = page_id, property_id=DELETED_PROPERTY_ID, value=False)
-        # updateNotionPageProperty(page_id = page_id, property_id=TITLE_PROPERTY_ID, value=things3_uuid)
+        if notion_status != things3_status:
+            updateNotionPageProperty(page_id = page_id, property_id=STATUS_PROPERTY_ID, value=things3_status)
+        if notion_title != things3_title:
+            updateNotionPageProperty(page_id = page_id, property_id=UUID_PROPERTY_ID, value=things3_title)
+        if notion_deleted != things3_deleted:
+            updateNotionPageProperty(page_id = page_id, property_id=DELETED_PROPERTY_ID, value=False)
     else:
         # add page
         addNotionPage(NOTION_DB_ID, {
