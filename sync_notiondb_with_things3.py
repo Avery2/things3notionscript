@@ -101,9 +101,9 @@ for task in all_tasks:
     things3_title = task['title']
 
     isTaskInNotion = things3_uuid in pages_by_uuid.keys()
-    page_id = pages_by_uuid[things3_uuid]['id']
 
     if isTaskInNotion:
+        page_id = pages_by_uuid[things3_uuid]['id']
         # update page
         updateNotionPageProperty(page_id = page_id, property_id=STATUS_PROPERTY_ID, value=things3_status)
         updateNotionPageProperty(page_id = page_id, property_id=UUID_PROPERTY_ID, value=things3_title)
