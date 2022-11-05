@@ -6,10 +6,14 @@ from typing import Union, TypedDict, Optional
 
 SKIP_COMPLETED = False
 SKIP_NO_TITLE_THINGS3 = True
+SKIP_BEFORE_DATE = '2022-05'
 if SKIP_COMPLETED:
     all_tasks = [t for t in things.tasks()]
 else:
     all_tasks = [t for t in things.tasks(status=None)]
+
+all_tasks = list(filter(lambda t: t['created'][0:len(SKIP_BEFORE_DATE)] > SKIP_BEFORE_DATE, all_tasks))
+print(f"{len(all_tasks)=}")
 load_dotenv()
 # my_key = os.getenv("DB_ID")
 NOTION_TOKEN = os.getenv("NOTION_TOKEN")
