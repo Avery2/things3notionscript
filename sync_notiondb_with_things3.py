@@ -6,7 +6,7 @@ from typing import Union, TypedDict, Optional
 
 SKIP_COMPLETED = False
 SKIP_NO_TITLE_THINGS3 = True
-SKIP_BEFORE_DATE = '2022-05'
+SKIP_BEFORE_DATE = '2022-07'
 if SKIP_COMPLETED:
     all_tasks = [t for t in things.tasks()]
 else:
