@@ -17,17 +17,37 @@ all_tasks = list(
         lambda t: t["created"][0 : len(SKIP_BEFORE_DATE)] > SKIP_BEFORE_DATE, all_tasks
     )
 )
-print(f"{len(all_tasks)=}")
 load_dotenv()
 # my_key = os.getenv("DB_ID")
 NOTION_TOKEN = os.getenv("NOTION_TOKEN")
 notion = Client(auth=NOTION_TOKEN)
 NOTION_DB_ID = "a1fd716f1a6b4ae6b5fcd8e6817f9af3"
 
-#
+# these vars are manually updated from notion_properties = notion.databases.retrieve(notion_db_id)['properties']
+STATUS_PROPERTY_ID = "PBVs"
+UUID_PROPERTY_ID = "wrMk"
+TITLE_PROPERTY_ID = "title"
+
+
 def getExistingDBPages():
     """get existing pages as python objects"""
     return notion.databases.query(NOTION_DB_ID)["results"]
+
+
+# # ! warning delete all
+# pages = getExistingDBPages()
+# while len(pages) > 0:
+#     delete_ids = [p["id"] for p in pages]
+#     for _id in delete_ids:
+#         print(f"delete block: {_id}")
+#         notion.blocks.delete(block_id=_id)
+#     pages = getExistingDBPages()
+
+# exit(1)
+# # ! warning delete all end
+
+numUpdatedProps = 0
+numAddedPages = 0
 
 
 def getExistingDBProperties():
@@ -69,49 +89,52 @@ def addNotionPage(notion_db_id: str, page_properties: MyNotionDBPage):
     return notion.pages.create(parent=parent, properties=properties)
 
 
-# these vars are manually updated from notion_properties = notion.databases.retrieve(notion_db_id)['properties']
-STATUS_PROPERTY_ID = "PBVs"
-UUID_PROPERTY_ID = "wrMk"
-TITLE_PROPERTY_ID = "title"
+def uuidInNotion(uuid: str) -> bool:
+    return len(getPagesWithUUID(uuid)) > 0
 
-# ! FIXME: this is broken bc it gets rate limited to only 100 values
-existing_notion_pages = getExistingDBPages()
+
+# other ways to query uuid from notion page object
+#         myKey = p["properties"]["uuid"]["plain_text"]
+#         myKey = p["properties"]["uuid"]["rich_text"][0]["plain_text"]
+#         myKey = p["properties"]["uuid"]["rich_text"][0]["text"]["content"]
+def getPagesWithUUID(uuid: str):
+    filterProp = {
+        "and": [
+            {"property": UUID_PROPERTY_ID, "rich_text": {"contains": uuid}},
+        ]
+    }
+    matches = notion.databases.query(database_id=NOTION_DB_ID, filter=filterProp)[
+        "results"
+    ]
+    return matches
+
+
 DB_PROPERTIES = getExistingDBProperties()
-
-pages_by_uuid = {}
-for p in existing_notion_pages:
-    try:
-        myKey = p["properties"]["uuid"]["plain_text"]
-    except:
-        myKey = p["properties"]["uuid"]["rich_text"][0]["plain_text"]
-    finally:
-        myKey = p["properties"]["uuid"]["rich_text"][0]["text"]["content"]
-    pages_by_uuid[myKey] = p
 
 tasks_by_uuid = {t["uuid"]: t for t in all_tasks}
 
-pages_by_uuid_set = set(list(pages_by_uuid.keys()))
 
 for i, task in enumerate(all_tasks):
     if i % 100 == 0:
-        print(f"Syncing existing things3 task {i} of {len(all_tasks)}")
+        print(
+            f"Syncing existing things3 task {i} of {len(all_tasks)} [{numUpdatedProps=} {numAddedPages=}]"
+        )
     things3_status = task["status"]
     things3_uuid = task["uuid"]
     things3_title = task["title"]
     if not things3_title and SKIP_NO_TITLE_THINGS3:
         continue
 
-    isTaskInNotion = things3_uuid in pages_by_uuid_set
-    if not isTaskInNotion:
-        # print(f"{things3_uuid=} {isTaskInNotion=} {pages_by_uuid_set=}")
-        print(f"{things3_uuid=} {isTaskInNotion=} {len(pages_by_uuid_set)=}")
+    isTaskInNotion = uuidInNotion(things3_uuid)
 
     if isTaskInNotion:
-        page_id = pages_by_uuid[things3_uuid]["id"]
-        notion_status = pages_by_uuid[things3_uuid]["properties"]["status"]["checkbox"]
-        notion_title = pages_by_uuid[things3_uuid]["properties"]["title"]["title"][0][
-            "text"
-        ]["content"]
+        page_id = getPagesWithUUID(things3_uuid)[0]["id"]
+        notion_status = getPagesWithUUID(things3_uuid)[0]["properties"]["status"][
+            "checkbox"
+        ]
+        notion_title = getPagesWithUUID(things3_uuid)[0]["properties"]["title"][
+            "title"
+        ][0]["text"]["content"]
 
         # update page
         if notion_status != things3_status:
@@ -124,19 +147,21 @@ for i, task in enumerate(all_tasks):
             updateNotionPageProperty(
                 page_id=page_id, property_id=UUID_PROPERTY_ID, value=things3_title
             )
-    else:
+    elif things3_status in ("incomplete"):  # only add incomplete todo items
         # add page
         addNotionPage(
             NOTION_DB_ID,
             {"status": things3_status, "uuid": things3_uuid, "title": things3_title},
         )
+f"Finished syncing {len(all_tasks)} tasks [{numUpdatedProps=} {numAddedPages=}]"
 
-for i, (nuuid, npage) in enumerate(pages_by_uuid.items()):
-    print(f"{i=} {nuuid=} npage=[not shown]")
-    if i % 100 == 0:
-        print(f"Syncing existing notion page {i} of {len(pages_by_uuid)}")
+# todo: go through existing DB items and delete stale Pages (that have since been deleted in Things3)
+# for i, (nuuid, npage) in enumerate(pages_by_uuid.items()):
+#     print(f"Syncing existing notion pages")
 
-    isPageInThings3 = nuuid in tasks_by_uuid.keys()
-    if not isPageInThings3:
-        # delete page
-        notion.blocks.delete(block_id=npage["id"])
+#     isPageInThings3 = nuuid in tasks_by_uuid.keys()
+#     if not isPageInThings3:
+#         # delete page
+#         to_delete_id = npage["id"]
+#         print(f"delete block: {to_delete_id}")
+#         notion.blocks.delete(block_id=to_delete_id)
