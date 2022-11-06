@@ -69,13 +69,6 @@ def addNotionPage(notion_db_id: str, page_properties: MyNotionDBPage):
     return notion.pages.create(parent=parent, properties=properties)
 
 
-# task = all_tasks[0]
-# addNotionPage(NOTION_DB_ID, {
-#     'status': task['status'],
-#     'uuid': task['uuid'],
-#     'title': task['title'],
-# })
-
 # these vars are manually updated from notion_properties = notion.databases.retrieve(notion_db_id)['properties']
 STATUS_PROPERTY_ID = "PBVs"
 UUID_PROPERTY_ID = "wrMk"
