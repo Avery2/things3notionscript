@@ -43,17 +43,8 @@ def updateNotionPageProperty(page_id: str, property_id: str, value: Union[bool, 
     return resonse
 
 
-# notin_db_pages = notion.databases.query(NOTION_DB_ID)['results']
-# property = 'deleted'
-# value_property = True
-# notion_page_id = notin_db_pages[0]['id']
-# notion_property_id = notion_properties[property]['id']
-# updateNotionPage(notion_page_id, notion_property_id, value_property)
-
-
 class MyNotionDBPage(TypedDict):
     status: bool
-    deleted: Optional[bool]
     uuid: str
     title: str
 
@@ -67,9 +58,6 @@ def addNotionPage(notion_db_id: str, page_properties: MyNotionDBPage):
         },
         DB_PROPERTIES["status"]["id"]: {
             "checkbox": page_properties["status"] in ("completed")
-        },
-        DB_PROPERTIES["deleted"]["id"]: {
-            "checkbox": False,  # it's not deleted if I am adding it
         },
         DB_PROPERTIES["uuid"]["id"]: {
             "rich_text": [
@@ -90,7 +78,6 @@ def addNotionPage(notion_db_id: str, page_properties: MyNotionDBPage):
 
 # these vars are manually updated from notion_properties = notion.databases.retrieve(notion_db_id)['properties']
 STATUS_PROPERTY_ID = "PBVs"
-DELETED_PROPERTY_ID = "ouMw"
 UUID_PROPERTY_ID = "wrMk"
 TITLE_PROPERTY_ID = "title"
 
@@ -116,7 +103,6 @@ for i, task in enumerate(all_tasks):
     if i % 100 == 0:
         print(f"Syncing existing things3 task {i} of {len(all_tasks)}")
     things3_status = task["status"]
-    things3_deleted = False
     things3_uuid = task["uuid"]
     things3_title = task["title"]
     if not things3_title and SKIP_NO_TITLE_THINGS3:
@@ -130,9 +116,6 @@ for i, task in enumerate(all_tasks):
     if isTaskInNotion:
         page_id = pages_by_uuid[things3_uuid]["id"]
         notion_status = pages_by_uuid[things3_uuid]["properties"]["status"]["checkbox"]
-        notion_deleted = pages_by_uuid[things3_uuid]["properties"]["deleted"][
-            "checkbox"
-        ]
         notion_title = pages_by_uuid[things3_uuid]["properties"]["title"]["title"][0][
             "text"
         ]["content"]
@@ -148,10 +131,6 @@ for i, task in enumerate(all_tasks):
             updateNotionPageProperty(
                 page_id=page_id, property_id=UUID_PROPERTY_ID, value=things3_title
             )
-        if notion_deleted != things3_deleted:
-            updateNotionPageProperty(
-                page_id=page_id, property_id=DELETED_PROPERTY_ID, value=False
-            )
     else:
         # add page
         addNotionPage(
@@ -166,7 +145,5 @@ for i, (nuuid, npage) in enumerate(pages_by_uuid.items()):
 
     isPageInThings3 = nuuid in tasks_by_uuid.keys()
     if not isPageInThings3:
-        # update deleted status
-        updateNotionPageProperty(
-            page_id=npage["id"], property_id=DELETED_PROPERTY_ID, value=True
-        )
+        # delete page
+        notion.blocks.delete(block_id=npage["id"])
