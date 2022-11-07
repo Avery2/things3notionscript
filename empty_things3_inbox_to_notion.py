@@ -58,8 +58,8 @@ if __name__ == "__main__":
     block_id = ""
     # example id: ede03723649543a3a4cedc3065faaa8f
     while not block_id:
-        if CLIonly:
-            query
+        if CLIonly and query:
+            block_id = query.strip().split("-")[-1]
         else:
             print("Input block ID or URL: ", end="")
             block_id = input().strip().split("-")[-1]
