@@ -60,7 +60,7 @@ if __name__ == "__main__":
     while not block_id:
         if CLIonly and query:
             block_id = query.strip().split("-")[-1]
-        else:
+        if not CLIonly:
             print("Input block ID or URL: ", end="")
             block_id = input().strip().split("-")[-1]
         if not block_id:
