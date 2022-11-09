@@ -104,4 +104,4 @@ if __name__ == "__main__":
         num_written += 1
 
     tn.deleteBlankInboxItems()
-    print(f"Wrote {num_written} objects.")
+    print(f"Wrote {num_written} objects. [{block_id=}]")
