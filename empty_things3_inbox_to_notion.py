@@ -11,6 +11,9 @@ import sys
 # this toggles if this runs as a python script to be run from terminal manually or as an alfred workflow (so CLI only)
 CLIonly = True
 
+# just for me, I have a diff page I like to put the "date" notes into
+MOMENT_PAGE_CAPTURE_ID = "12057e20776141a8aa499ca86b581714"
+
 
 def addParagraphToBlock(block_id, paragraph_content):
     block = tn.create_paragraph(paragraph_content)
@@ -83,6 +86,7 @@ if __name__ == "__main__":
         return True
 
     todo_item_ids = []
+    put_in_capture_instead = [isDate(todo["title"]) for todo in inbox]
     # empty named todo items in Things3 inbox
     itemsToMigrate = [
         todo
@@ -113,9 +117,10 @@ if __name__ == "__main__":
 
     num_written = 0
     # write to notion
-    for note, note_id in zip(notes_dict, todo_item_ids):
+    for note, note_id, putInCapture in zip(notes_dict, todo_item_ids, put_in_capture_instead):
+        writeToBlockId = MOMENT_PAGE_CAPTURE_ID if putInCapture else block_id
         addContentToBlock(
-            block_id, note, blank_header=add_empty_headers, as_callouts=as_callouts
+            writeToBlockId, note, blank_header=add_empty_headers, as_callouts=(as_callouts and not putInCapture)
         )
         num_written += 1
         tn.deleteTodoItemWithID(note_id)
