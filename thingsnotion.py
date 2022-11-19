@@ -162,6 +162,18 @@ def obj_from_md(md):
     pmd = parse_markdown_to_arr(md)
     return parse_arr_to_obj(pmd)
 
+def deleteTodoItemWithID(id: str):
+    """deletes an item in the inbox that has the given id, using applescript"""
+    s = NSAppleScript.alloc().initWithSource_(f"""tell application "Things3"
+        set inboxToDos to to dos of list "Inbox"
+        repeat with inboxToDo in inboxToDos
+            if id of inboxToDo equals "{id}"
+                move inboxToDo to list "Trash"
+            end if
+        end repeat
+    end tell""")
+    print(f"error(s): {s.executeAndReturnError_(None)}")
+
 def deleteBlankInboxItems():
     """Deletes all inbox items without a name, using applescripts"""
     s = NSAppleScript.alloc().initWithSource_("""tell application "Things3"

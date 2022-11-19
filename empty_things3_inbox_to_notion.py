@@ -82,6 +82,7 @@ if __name__ == "__main__":
             return False
         return True
 
+    todo_item_ids = []
     # empty named todo items in Things3 inbox
     itemsToMigrate = [
         todo
@@ -103,6 +104,7 @@ if __name__ == "__main__":
             note += obj["notes"]
             notes_raw.append(note)
     notes_dict = [tn.obj_from_md(o) for o in notes_raw]
+    todo_item_ids = [o["uuid"] for o in itemsToMigrate]
 
     as_callouts = promptYN("Migrate as callout blocks?", True)
     add_empty_headers = False
@@ -111,11 +113,13 @@ if __name__ == "__main__":
 
     num_written = 0
     # write to notion
-    for note in notes_dict:
+    for note, note_id in zip(notes_dict, todo_item_ids):
         addContentToBlock(
             block_id, note, blank_header=add_empty_headers, as_callouts=as_callouts
         )
         num_written += 1
+        tn.deleteTodoItemWithID(note_id)
 
-    tn.deleteBlankInboxItems()
-    print(f"Wrote {num_written} objects. [{block_id=}]")
+    # tn.deleteBlankInboxItems()
+    returnMessage = f"Wrote {num_written} objects. [{block_id=}]"
+    print(returnMessage)
