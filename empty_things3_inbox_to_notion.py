@@ -74,20 +74,34 @@ if __name__ == "__main__":
     migrate_empty_titles = promptYN("Migrate todo items with no title", True)
     # migrate_full_titles = promptYN("Migrate todo items with a title")
     migrate_full_titles = False
+    migrate_date_titles = True
+
+    def isDate(possibleDate: str):
+        returnedMatches = re.match(r"(?i)((jan|feb|mar|apr|may|jun|jul|aug|sep|nov|dec)\s*\d+\,?\s*\s\d+\s\d+\:\d+\:\d+ (AM|PM))|((monday|tuesday|wednesday|thursday|friday|saturday|sunday)?\,?\s*(jan|feb|mar|apr|may|jun|jul|aug|sep|nov|dec)\s*\d+.{0,2}\,\s*\d{4}\s*(AM|PM)?(\d+\:\d+\s*\:?\d*\s?(AM|PM)?)?)$", possibleDate)
+        if not returnedMatches:
+            return False
+        return True
 
     # empty named todo items in Things3 inbox
-    blank_items = [
+    itemsToMigrate = [
         todo
         for todo in inbox
         if (
             (migrate_empty_titles and todo["title"] == "")
             or (migrate_full_titles and todo["title"] != "")
+            or (migrate_date_titles and isDate(todo["title"]))
         )
     ]
     if migrate_full_titles:
-        notes_raw = ["# " + obj["title"] + "\n" + obj["notes"] for obj in blank_items]
+        notes_raw = ["# " + obj["title"] + "\n" + obj["notes"] for obj in itemsToMigrate]
     else:
-        notes_raw = [obj["notes"] for obj in blank_items]
+        notes_raw = []
+        for obj in itemsToMigrate:
+            note = ""
+            if (obj["title"]):
+                note += obj["title"] + "\n"
+            note += obj["notes"]
+            notes_raw.append(note)
     notes_dict = [tn.obj_from_md(o) for o in notes_raw]
 
     as_callouts = promptYN("Migrate as callout blocks?", True)
