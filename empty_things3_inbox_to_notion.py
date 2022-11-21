@@ -55,6 +55,23 @@ if __name__ == "__main__":
     notion = Client(auth=my_token)
     inbox = things.inbox()
 
+    # inbox shape:
+    # print(f"{inbox[0]=}")
+    # inbox[0]= {
+    #     'uuid': '3g8ZTzH5b4tUUSGpy3ypSW',
+    #     'type': 'to-do', 'title': '',
+    #     'status': 'incomplete',
+    #     'notes': 'The Boltzmann brain paradox - Fabio Pacucci - YouTube\nhttps://www.youtube.com/watch?v=OpohbXB_JZU',
+    #     'start': 'Inbox',
+    #     'start_date': None,
+    #     'deadline': None,
+    #     'stop_date': None,
+    #     'created': '2022-11-20 00:02:54',
+    #     'modified': '2022-11-20 16:22:42',
+    #     'index': -50541,
+    #     'today_index': 0
+    # }
+
     query = None
     if len(sys.argv) > 1:
         query = sys.argv[1]
