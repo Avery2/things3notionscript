@@ -2,7 +2,6 @@ import thingsnotion as tn
 import things
 from notion_client import Client
 from dotenv import load_dotenv
-from enum import Enum
 
 load_dotenv()
 import os
@@ -15,11 +14,6 @@ CLIonly = True
 # just for me, I have a diff page I like to put the "date" notes into
 MOMENT_PAGE_CAPTURE_ID = "12057e20776141a8aa499ca86b581714"
 MOMENT_PAGE_WORK_ID = "b3ec57070d02409d89f5d6f27538983f"
-class ExportLocation(Enum):
-    THINGS_3_DUMP = 1
-    CAPTURE = 2
-    WORK = 3
-
 
 
 def addParagraphToBlock(block_id, paragraph_content):
@@ -56,33 +50,11 @@ def promptYN(prompt, overrideAsTrue):
     return response
 
 
-def getProjectTasks(amplitude_projects_uuids):
-    for uuid in amplitude_projects_uuids:
-        for task in things.projects(uuid)['items']:
-            yield task
-
-def getAreaTasks(amplitude_areas_uuids):
-    for uuid in amplitude_areas_uuids:
-        for task in things.areas(uuid, include_items=True)['items']:
-            yield task
-
 if __name__ == "__main__":
     # setup
     my_token = os.getenv("NOTION_TOKEN")
     notion = Client(auth=my_token)
     inbox = things.inbox()
-
-    # just for me
-    amplitude_projects = [(p['uuid'], p['title'].lower(), p['title']) for p in things.projects()]
-    amplitude_areas = [(a['uuid'], a['title'].lower(), a['title']) for a in things.areas()]
-
-    amplitude_projects=list(filter(lambda x: x[1].find("amplitude") != -1, amplitude_projects))
-    amplitude_areas=list(filter(lambda x: x[1].find("amplitude") != -1, amplitude_areas))
-    amplitude_projects_uuids=[e[0] for e in amplitude_projects]
-    amplitude_areas_uuids=[e[0] for e in amplitude_areas]
-
-    amplitude_project_names = [e[2] for e in amplitude_projects]
-    amplitude_area_names = [e[2] for e in amplitude_areas]
 
     query = None
     if len(sys.argv) > 1:
@@ -118,7 +90,7 @@ if __name__ == "__main__":
         return True
 
     todo_item_ids = []
-    export_locations = [ExportLocation.CAPTURE if isDate(todo["title"]) else ExportLocation.THINGS_3_DUMP for todo in inbox]
+    put_in_capture_instead = [isDate(todo["title"]) for todo in inbox]
     # empty named todo items in Things3 inbox
     itemsToMigrate = [
         todo
@@ -129,13 +101,6 @@ if __name__ == "__main__":
             or (migrate_date_titles and isDate(todo["title"]))
         )
     ]
-    project_tasks = list(filter(lambda x: migrate_date_titles and isDate(x['title']), getProjectTasks(amplitude_projects_uuids)))
-    area_tasks = list(filter(lambda x: migrate_date_titles and isDate(x['title']), getAreaTasks(amplitude_areas_uuids)))
-    itemsToMigrate += project_tasks
-    export_locations += [ExportLocation.WORK for t in project_tasks]
-    itemsToMigrate += area_tasks
-    export_locations += [ExportLocation.WORK for t in area_tasks]
-
     if migrate_full_titles:
         notes_raw = [
             "# " + obj["title"] + "\n" + obj["notes"] for obj in itemsToMigrate
@@ -158,25 +123,18 @@ if __name__ == "__main__":
 
     num_written = 0
     # write to notion
-    for i, (note, note_id, export_location) in enumerate(zip(
-        notes_dict, todo_item_ids, export_locations
-    )):
-        if export_location is ExportLocation.WORK:
-            writeToBlockId = MOMENT_PAGE_WORK_ID
-        elif export_location is ExportLocation.CAPTURE:
-            writeToBlockId = MOMENT_PAGE_CAPTURE_ID
-        else:
-            writeToBlockId = block_id
+    for note, note_id, putInCapture in zip(
+        notes_dict, todo_item_ids, put_in_capture_instead
+    ):
+        writeToBlockId = MOMENT_PAGE_CAPTURE_ID if putInCapture else block_id
         addContentToBlock(
             writeToBlockId,
             note,
             blank_header=add_empty_headers,
-            as_callouts=(as_callouts),
+            as_callouts=(as_callouts and not putInCapture),
         )
         num_written += 1
-        tn.deleteTodoItemWithID(note_id, area_names=amplitude_area_names, project_names=amplitude_project_names)
-        if i % 10:
-            print(f"processing items... [{i=}]")
+        tn.deleteTodoItemWithID(note_id)
 
     # tn.deleteBlankInboxItems()
     returnMessage = f"Wrote {num_written} objects. [{block_id=}]"
