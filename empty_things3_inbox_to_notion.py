@@ -108,17 +108,19 @@ if __name__ == "__main__":
     migrate_full_titles = False
     migrate_date_titles = True
 
-    def isDate(possibleDate: str):
+    def isDate(possibleDate: str, allowBlank=True):
         returnedMatches = re.match(
             r"(?i)((jan|feb|mar|apr|may|jun|jul|aug|sep|nov|dec)\s*\d+\,?\s*\s\d+\s\d+\:\d+\:\d+ (AM|PM))|((monday|tuesday|wednesday|thursday|friday|saturday|sunday)?\,?\s*(jan|feb|mar|apr|may|jun|jul|aug|sep|nov|dec)\s*\d+.{0,2}\,\s*\d{4}\s*(AM|PM)?(\d+\:\d+\s*\:?\d*\s?(AM|PM)?)?)$",
             possibleDate,
         )
+        if allowBlank:
+            if possibleDate.strip() == "":
+                return True
         if not returnedMatches:
             return False
         return True
 
     todo_item_ids = []
-    export_locations = [ExportLocation.CAPTURE if isDate(todo["title"]) else ExportLocation.THINGS_3_DUMP for todo in inbox]
     # empty named todo items in Things3 inbox
     itemsToMigrate = [
         todo
@@ -129,12 +131,16 @@ if __name__ == "__main__":
             or (migrate_date_titles and isDate(todo["title"]))
         )
     ]
+    export_locations = list([2 if isDate(todo["title"], allowBlank=False) else 1 for todo in itemsToMigrate])
     project_tasks = list(filter(lambda x: migrate_date_titles and isDate(x['title']), getProjectTasks(amplitude_projects_uuids)))
     area_tasks = list(filter(lambda x: migrate_date_titles and isDate(x['title']), getAreaTasks(amplitude_areas_uuids)))
     itemsToMigrate += project_tasks
-    export_locations += [ExportLocation.WORK for t in project_tasks]
+    print(f"{export_locations=}")
+    export_locations += [3 for t in project_tasks]
     itemsToMigrate += area_tasks
-    export_locations += [ExportLocation.WORK for t in area_tasks]
+    export_locations += [3 for t in area_tasks]
+
+    print(f"{export_locations=}")
 
     if migrate_full_titles:
         notes_raw = [
@@ -161,9 +167,9 @@ if __name__ == "__main__":
     for i, (note, note_id, export_location) in enumerate(zip(
         notes_dict, todo_item_ids, export_locations
     )):
-        if export_location is ExportLocation.WORK:
+        if export_location == 3:
             writeToBlockId = MOMENT_PAGE_WORK_ID
-        elif export_location is ExportLocation.CAPTURE:
+        elif export_location == 2:
             writeToBlockId = MOMENT_PAGE_CAPTURE_ID
         else:
             writeToBlockId = block_id
@@ -173,6 +179,7 @@ if __name__ == "__main__":
             blank_header=add_empty_headers,
             as_callouts=(as_callouts),
         )
+        print(f"{i=} {export_location=} {writeToBlockId=}")
         num_written += 1
         tn.deleteTodoItemWithID(note_id, area_names=amplitude_area_names, project_names=amplitude_project_names)
         if i % 10:
