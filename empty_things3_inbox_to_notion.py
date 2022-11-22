@@ -13,6 +13,7 @@ CLIonly = True
 
 # just for me, I have a diff page I like to put the "date" notes into
 MOMENT_PAGE_CAPTURE_ID = "12057e20776141a8aa499ca86b581714"
+MOMENT_PAGE_WORK_ID = "b3ec57070d02409d89f5d6f27538983f"
 
 
 def addParagraphToBlock(block_id, paragraph_content):
@@ -55,50 +56,6 @@ if __name__ == "__main__":
     notion = Client(auth=my_token)
     inbox = things.inbox()
 
-    # inbox shape:
-    # print(f"{inbox[0]=}")
-    # inbox[0]= {
-    #     'uuid': '3g8ZTzH5b4tUUSGpy3ypSW',
-    #     'type': 'to-do', 'title': '',
-    #     'status': 'incomplete',
-    #     'notes': 'The Boltzmann brain paradox - Fabio Pacucci - YouTube\nhttps://www.youtube.com/watch?v=OpohbXB_JZU',
-    #     'start': 'Inbox',
-    #     'start_date': None,
-    #     'deadline': None,
-    #     'stop_date': None,
-    #     'checklist': True,
-    #     'created': '2022-11-20 00:02:54',
-    #     'modified': '2022-11-20 16:22:42',
-    #     'index': -50541,
-    #     'today_index': 0
-    # }
-    # >>> import things
-    # >>> things.todos()
-    # [{'uuid': '2Ukg8I2nLukhyEM7wYiBeb',
-    # 'type': 'to-do',
-    # 'title': 'Make reservation for dinner',
-    # 'project': 'bNj6TPdKYhY6fScvXWVRDX',
-    # ...},
-    # {'uuid': 'RLZroza3jz0XPs3uAlynS7',
-    # 'type': 'to-do',
-    # 'title': 'Buy a whiteboard and accessories',
-    # 'project': 'w8oSP1HjWstPin8RMaJOtB',
-    # 'notes': "Something around 4' x 3' that's free-standing, two-sided, and magnetic.",
-    # 'checklist': True,
-    # ...
-    # >>> things.todos('RLZroza3jz0XPs3uAlynS7')
-    # {'uuid': 'RLZroza3jz0XPs3uAlynS7',
-    # 'type': 'to-do',
-    # 'title': 'Buy a whiteboard and accessories',
-    # ...
-    # 'checklist': [
-    #     {'title': 'Cleaning Spray', 'status': 'completed', ...},
-    #     {'title': 'Magnetic Eraser', 'status': 'incomplete', ...},
-    #     {'title': 'Round magnets', 'status': 'incomplete', ...}
-    # ]
-    # ...
-    # }
-
     query = None
     if len(sys.argv) > 1:
         query = sys.argv[1]
@@ -114,7 +71,7 @@ if __name__ == "__main__":
             block_id = tn.getLastBlockID(CLIonly)
         block_id = re.match(r"[a-zA-Z\d]{32}", block_id)[0]
         if not block_id:
-            print(f"Invalid ID: \"{block_id}\"")
+            print(f'Invalid ID: "{block_id}"')
 
     tn.saveLastBlockID(block_id, CLIonly)
 
@@ -124,7 +81,10 @@ if __name__ == "__main__":
     migrate_date_titles = True
 
     def isDate(possibleDate: str):
-        returnedMatches = re.match(r"(?i)((jan|feb|mar|apr|may|jun|jul|aug|sep|nov|dec)\s*\d+\,?\s*\s\d+\s\d+\:\d+\:\d+ (AM|PM))|((monday|tuesday|wednesday|thursday|friday|saturday|sunday)?\,?\s*(jan|feb|mar|apr|may|jun|jul|aug|sep|nov|dec)\s*\d+.{0,2}\,\s*\d{4}\s*(AM|PM)?(\d+\:\d+\s*\:?\d*\s?(AM|PM)?)?)$", possibleDate)
+        returnedMatches = re.match(
+            r"(?i)((jan|feb|mar|apr|may|jun|jul|aug|sep|nov|dec)\s*\d+\,?\s*\s\d+\s\d+\:\d+\:\d+ (AM|PM))|((monday|tuesday|wednesday|thursday|friday|saturday|sunday)?\,?\s*(jan|feb|mar|apr|may|jun|jul|aug|sep|nov|dec)\s*\d+.{0,2}\,\s*\d{4}\s*(AM|PM)?(\d+\:\d+\s*\:?\d*\s?(AM|PM)?)?)$",
+            possibleDate,
+        )
         if not returnedMatches:
             return False
         return True
@@ -142,12 +102,14 @@ if __name__ == "__main__":
         )
     ]
     if migrate_full_titles:
-        notes_raw = ["# " + obj["title"] + "\n" + obj["notes"] for obj in itemsToMigrate]
+        notes_raw = [
+            "# " + obj["title"] + "\n" + obj["notes"] for obj in itemsToMigrate
+        ]
     else:
         notes_raw = []
         for obj in itemsToMigrate:
             note = ""
-            if (obj["title"]):
+            if obj["title"]:
                 note += obj["title"] + "\n"
             note += obj["notes"]
             notes_raw.append(note)
@@ -161,10 +123,15 @@ if __name__ == "__main__":
 
     num_written = 0
     # write to notion
-    for note, note_id, putInCapture in zip(notes_dict, todo_item_ids, put_in_capture_instead):
+    for note, note_id, putInCapture in zip(
+        notes_dict, todo_item_ids, put_in_capture_instead
+    ):
         writeToBlockId = MOMENT_PAGE_CAPTURE_ID if putInCapture else block_id
         addContentToBlock(
-            writeToBlockId, note, blank_header=add_empty_headers, as_callouts=(as_callouts and not putInCapture)
+            writeToBlockId,
+            note,
+            blank_header=add_empty_headers,
+            as_callouts=(as_callouts and not putInCapture),
         )
         num_written += 1
         tn.deleteTodoItemWithID(note_id)
