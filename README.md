@@ -108,6 +108,7 @@ Assumes a local version of this repository is in `~/Library/Application Support/
 
 ## References
 
+- `crontab -l` list all chron
 - [Things3 python library](https://github.com/thingsapi/things.py#documentation)
 - [Notion API docs](https://developers.notion.com/docs/getting-started)
 - [Notion python sdk](https://github.com/ramnes/notion-sdk-py) (most used in `api_endpoints.py`)
