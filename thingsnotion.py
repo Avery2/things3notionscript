@@ -9,7 +9,8 @@ load_dotenv()
 my_key = os.getenv("DB_ID")
 my_token = os.getenv("NOTION_TOKEN")
 last_url_filename = '.lastblockid'
-alfred_filepath_extension = "../things3notionscript/"
+# alfred_filepath_extension = "../things3notionscript/"
+alfred_filepath_extension = ""
 
 def getProject(project_title: str):
         """Returns a project of the given name"""
