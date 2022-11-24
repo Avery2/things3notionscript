@@ -111,7 +111,7 @@ if __name__ == "__main__":
     def isDate(possibleDate: str, allowBlank=True):
         returnedMatches = re.match(
             r"(?i)((jan|feb|mar|apr|may|jun|jul|aug|sep|nov|dec)\s*\d+\,?\s*\s\d+\s\d+\:\d+\:\d+ (AM|PM))|((monday|tuesday|wednesday|thursday|friday|saturday|sunday)?\,?\s*(jan|feb|mar|apr|may|jun|jul|aug|sep|nov|dec)\s*\d+.{0,2}\,\s*\d{4}\s*(AM|PM)?(\d+\:\d+\s*\:?\d*\s?(AM|PM)?)?)$",
-            possibleDate,
+            possibleDate.strip(),
         )
         if allowBlank:
             if possibleDate.strip() == "":
