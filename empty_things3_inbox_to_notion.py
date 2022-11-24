@@ -13,7 +13,7 @@ import sys
 CLIonly = True
 
 # just for me, I have a diff page I like to put the "date" notes into
-MOMENT_PAGE_CAPTURE_ID = "12057e20776141a8aa499ca86b581714"
+MOMENT_PAGE_CAPTURE_ID = "cc08e49f11c544158164ee2cc72cb719"
 MOMENT_PAGE_WORK_ID = "b3ec57070d02409d89f5d6f27538983f"
 class ExportLocation(Enum):
     THINGS_3_DUMP = 1
