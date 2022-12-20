@@ -36,8 +36,11 @@ def addContentToBlock(
         content_ = [tn.create_paragraph("")] + content + [tn.create_paragraph("")]
         if blank_header and content and not tn.objIsHeader(content[0]):
             content_ = [tn.create_heading("")] + content
-    notion.blocks.children.append(block_id, children=content_)
-
+    try:
+        notion.blocks.children.append(block_id, children=content_)
+    except:
+        return False
+    return True
 
 def promptYN(prompt, overrideAsTrue):
     if overrideAsTrue or CLIonly:
@@ -173,15 +176,15 @@ if __name__ == "__main__":
             writeToBlockId = MOMENT_PAGE_CAPTURE_ID
         else:
             writeToBlockId = block_id
-        addContentToBlock(
+        if addContentToBlock(
             writeToBlockId,
             note,
             blank_header=add_empty_headers,
             as_callouts=(as_callouts),
-        )
+        ):
+            num_written += 1
+            tn.deleteTodoItemWithID(note_id, area_names=amplitude_area_names, project_names=amplitude_project_names)
         print(f"{i=} {export_location=} {writeToBlockId=}")
-        num_written += 1
-        tn.deleteTodoItemWithID(note_id, area_names=amplitude_area_names, project_names=amplitude_project_names)
         if i % 10:
             print(f"processing items... [{i=}]")
 
