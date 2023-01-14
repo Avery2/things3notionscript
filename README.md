@@ -106,6 +106,8 @@ Setup the `.env` file, then you can use the scripts.
 
 Assumes a local version of this repository is in `~/Library/Application Support/Alfred/Alfred.alfredpreferences/workflows/things3notionscript`. You may have to run `chmod a+x *.py` to enable the script.
 
+Double click `Things3NotionScript.alfredworkflow` to import into Alfred (assuming [alfred](https://www.alfredapp.com/) is installed)
+
 ## References
 
 - `crontab -l` list all chron
