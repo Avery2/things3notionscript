@@ -108,6 +108,12 @@ Assumes a local version of this repository is in `~/Library/Application Support/
 
 Double click `Things3NotionScript.alfredworkflow` to import into Alfred (assuming [alfred](https://www.alfredapp.com/) is installed)
 
+- this repo must be named `things3notionscript`
+- gotta have env setup
+- you can debug the workflow with this:
+- ![CleanShot 2023-01-13 at 21 26 55@2x](https://user-images.githubusercontent.com/53503018/212457477-6748f80b-49d9-4b85-aab2-2d1e57006ab9.png)
+
+
 ## References
 
 - `crontab -l` list all chron
