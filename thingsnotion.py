@@ -10,8 +10,8 @@ my_key = os.getenv("DB_ID")
 my_token = os.getenv("NOTION_TOKEN")
 last_url_filename = '.lastblockid'
 # alfred_filepath_extension = "../things3notionscript/"
-# todo: don't have this hardcoded
-alfred_filepath_extension = "/Users/avery.chan/Library/Application Support/Alfred/Alfred.alfredpreferences/workflows/things3notionscript/"
+# filepath to "things3notionscript" folder
+alfred_filepath_extension = os.getenv("ALFRED_FILEPATH")
 
 def getProject(project_title: str):
         """Returns a project of the given name"""
