@@ -61,7 +61,7 @@ One-way sync from things3 to a specified notion database. So that you can have c
 </details>
 
 
-#### Instructions
+# Instructions
 
 todo
 
