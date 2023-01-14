@@ -12,6 +12,8 @@ last_url_filename = '.lastblockid'
 # alfred_filepath_extension = "../things3notionscript/"
 # filepath to "things3notionscript" folder
 alfred_filepath_extension = os.getenv("ALFRED_FILEPATH")
+if (alfred_filepath_extension[-1] != '/'):
+    alfred_filepath_extension += '/'
 
 def getProject(project_title: str):
         """Returns a project of the given name"""
