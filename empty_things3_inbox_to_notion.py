@@ -174,11 +174,13 @@ if __name__ == "__main__":
             writeToBlockId = MOMENT_PAGE_WORK_ID
         elif export_location == 2:
             writeToBlockId = MOMENT_PAGE_CAPTURE_ID
+            as_callouts = False
         else:
             writeToBlockId = block_id
         if addContentToBlock(
             writeToBlockId,
             note,
+            padded=False,
             blank_header=add_empty_headers,
             as_callouts=(as_callouts),
         ):
