@@ -135,10 +135,9 @@ def create_toggle_block(title='', children=[]):
         },
     }
 
+# todo: use this method to replace all the create block objects == even just subsume them -- simplify API even if logic isn't too much cleaner
+"""
 def create_block(type: BlockTypes, title='', children=[]):
-    """
-    NOT WORKING ATM
-    """
     obj = {
         "object": 'block',
         "type": type,
@@ -157,6 +156,7 @@ def create_block(type: BlockTypes, title='', children=[]):
     if children:
         obj[type]["children"] = children
     return obj
+"""
 
 def create_paragraph(content):
     return {
