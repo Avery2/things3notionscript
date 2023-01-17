@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from notion_client import Client
 import time
 from Foundation import NSAppleScript
+from enum import Enum
 
 load_dotenv()
 my_key = os.getenv("DB_ID")
@@ -14,6 +15,22 @@ last_url_filename = '.lastblockid'
 alfred_filepath_extension = os.getenv("ALFRED_FILEPATH")
 if (alfred_filepath_extension[-1] != '/'):
     alfred_filepath_extension += '/'
+
+# Block types which support children are “paragraph”, “bulleted_list_item”, “numbered_list_item”, “toggle”, “to_do”, “quote”, “callout”, “synced_block”, “template”, “column”, “child_page”, “child_database”, and “table”. All heading blocks (“heading_1”, “heading_2”, and “heading_3”) support children when the is_toggleable property is true.
+class BlockTypes(Enum):
+    PARAGRAPH="paragraph"
+    BULLETED_LIST_ITEM="bulleted_list_item"
+    NUMBERED_LIST_ITEM="numbered_list_item"
+    TOGGLE="toggle"
+    TO_DO="to_do"
+    QUOTE="quote"
+    CALLOUT="callout"
+    SYNCED_BLOCK="synced_block"
+    TEMPLATE="template"
+    COLUMN="column"
+    CHILD_PAGE="child_page"
+    CHILD_DATABASE="child_database"
+    TABLE="table"
 
 def getProject(project_title: str):
         """Returns a project of the given name"""
@@ -100,6 +117,46 @@ def create_callout_block(title='', children=[]):
             "children": children
         },
     }
+
+def create_toggle_block(title='', children=[]):
+    return {
+        "object": 'block',
+        "type": 'toggle',
+        "has_children": True,
+        "toggle": {
+            "rich_text": [{
+                "type": "text",
+                "text": {
+                    "content": title,
+                },
+            }],
+            "color": "default",
+            "children": children
+        },
+    }
+
+# todo: use this method to replace all the create block objects == even just subsume them -- simplify API even if logic isn't too much cleaner
+"""
+def create_block(type: BlockTypes, title='', children=[]):
+    obj = {
+        "object": 'block',
+        "type": type,
+        "has_children": bool(children),
+        type: {
+            "rich_text": [{
+                "type": "text",
+                "text": {
+                    "content": title,
+                },
+            }],
+            "color": "default"
+        },
+    }
+
+    if children:
+        obj[type]["children"] = children
+    return obj
+"""
 
 def create_paragraph(content):
     return {
