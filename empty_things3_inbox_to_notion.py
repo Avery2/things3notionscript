@@ -185,7 +185,7 @@ if __name__ == "__main__":
 
         block_type = tn.BlockTypes.CALLOUT if as_callouts else tn.BlockTypes.TOGGLE
 
-        # hack: sorry
+        # hack: this is fragile way to parse the title from the content, need to refactor to get this -- ideally parse from the raw markdown
         bad_title_parsing = note_content[0]['paragraph']['rich_text'][0]['text']['content']
 
         if addContentToBlock(
