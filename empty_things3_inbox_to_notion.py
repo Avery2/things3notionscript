@@ -28,10 +28,14 @@ def addParagraphToBlock(block_id, paragraph_content):
 
 
 def addContentToBlock(
-    block_id, content: list, *, padded=True, blank_header=False, as_callouts=False
+    block_id, content: list, *, title="", padded=True, blank_header=False, as_type: tn.BlockTypes=None
 ):
-    if as_callouts:
-        content_ = [tn.create_callout_block(title="", children=content)]
+    if as_type == tn.BlockTypes.CALLOUT:
+        content_ = [tn.create_callout_block(title=title, children=content)]
+    elif as_type == tn.BlockTypes.TOGGLE:
+        content_ = [tn.create_toggle_block(title=title, children=content)]
+    elif as_type:
+        content_ = [tn.create_block(title=title, children=content, type=type)]
     elif padded:
         content_ = [tn.create_paragraph("")] + content + [tn.create_paragraph("")]
         if blank_header and content and not tn.objIsHeader(content[0]):
@@ -39,6 +43,7 @@ def addContentToBlock(
     try:
         notion.blocks.children.append(block_id, children=content_)
     except:
+        print(f"failed call to addContentToBlock() where {block_id=} {content_=}")
         return False
     return True
 
@@ -152,11 +157,11 @@ if __name__ == "__main__":
     else:
         notes_raw = []
         for obj in itemsToMigrate:
-            note = ""
+            note_content = ""
             if obj["title"]:
-                note += obj["title"] + "\n"
-            note += obj["notes"]
-            notes_raw.append(note)
+                note_content += obj["title"] + "\n"
+            note_content += obj["notes"]
+            notes_raw.append(note_content)
     notes_dict = [tn.obj_from_md(o) for o in notes_raw]
     todo_item_ids = [o["uuid"] for o in itemsToMigrate]
 
@@ -167,7 +172,7 @@ if __name__ == "__main__":
 
     num_written = 0
     # write to notion
-    for i, (note, note_id, export_location) in enumerate(zip(
+    for i, (note_content, note_id, export_location) in enumerate(zip(
         notes_dict, todo_item_ids, export_locations
     )):
         if export_location == 3:
@@ -177,12 +182,19 @@ if __name__ == "__main__":
             as_callouts = False
         else:
             writeToBlockId = block_id
+
+        block_type = tn.BlockTypes.CALLOUT if as_callouts else tn.BlockTypes.TOGGLE
+
+        # hack: sorry
+        bad_title_parsing = note_content[0]['paragraph']['rich_text'][0]['text']['content']
+
         if addContentToBlock(
             writeToBlockId,
-            note,
+            note_content,
+            title=str(bad_title_parsing),
             padded=False,
             blank_header=add_empty_headers,
-            as_callouts=(as_callouts),
+            as_type=block_type
         ):
             num_written += 1
             tn.deleteTodoItemWithID(note_id, area_names=amplitude_area_names, project_names=amplitude_project_names)
