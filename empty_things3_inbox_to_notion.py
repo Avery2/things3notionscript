@@ -42,8 +42,8 @@ def addContentToBlock(
             content_ = [tn.create_heading("")] + content
     try:
         notion.blocks.children.append(block_id, children=content_)
-    except:
-        print(f"failed call to addContentToBlock() where {block_id=} {content_=}")
+    except Exception as e:
+        print(f"failed call to addContentToBlock() where {block_id=} {content_=} because {e=}")
         return False
     return True
 
