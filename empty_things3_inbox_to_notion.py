@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import thingsnotion as tn
 import things
 from notion_client import Client
