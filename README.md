@@ -49,7 +49,7 @@ Part of my workflow using Things3 and Notion. I write all my notes in Things3's 
 
 #### Instructions
   - Setup the `.env` file (see [`.env` setup](#env-setup))
-  - Use this to enable permissions for the script (I run it as a `.command` file so I can double click it. See [this](https://superuser.com/questions/966946/how-to-run-python-script-in-a-terminal-window-by-double-clicking-it).)
+  - Use this to enable permissions for the script
     - `chmod a+x empty_things3_inbox_to_notion.py`
   - Run the script with `python3 empty_things3_inbox_to_notion.py`
 
@@ -107,7 +107,7 @@ Setup the `.env` file, then you can use the scripts.
 
 ### Alfred workflow
 
-Assumes a local version of this repository is in `~/Library/Application Support/Alfred/Alfred.alfredpreferences/workflows/things3notionscript`. You may have to run `chmod a+x *.py` to enable the script.
+Assumes a local version of this repository is in `~/Library/Application Support/Alfred/Alfred.alfredpreferences/workflows/things3notionscript`. You may have to run `chmod a+x *.py` or `chmod 777 *.py` to enable the script.
 
 Double click `Things3NotionScript.alfredworkflow` to import into Alfred (assuming [alfred](https://www.alfredapp.com/) is installed)
 
@@ -123,4 +123,4 @@ Double click `Things3NotionScript.alfredworkflow` to import into Alfred (assumin
 - [Notion API docs](https://developers.notion.com/docs/getting-started)
 - [Notion python sdk](https://github.com/ramnes/notion-sdk-py) (most used in `api_endpoints.py`)
 - Why I like [quick capture](https://culturedcode.com/things/support/articles/2249437/): to [Close open loops](https://notes.andymatuschak.org/z8d4eJNaKrVDGTFpqRnQUPRkexB7K6XbcffAV)
-- Setup ChronTab: https://towardsdatascience.com/how-to-schedule-python-scripts-with-cron-the-only-guide-youll-ever-need-deea2df63b4e which means to make script run on regular basis
+- Setup ChronTab: https://betterprogramming.pub/how-to-execute-a-cron-job-on-mac-with-crontab-b2decf2968eb which means to make script run on regular basis
