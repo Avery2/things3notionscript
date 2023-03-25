@@ -1,3 +1,6 @@
+TEMP DOCS
+- Jan 22, 2023 10:48:09 PM now migrates todos in inbox with the `migrate to notion` tag
+
 # Things3 to Notion migration script
 
 Part of my workflow using Things3 and Notion. I write all my notes in Things3's [quick capture](https://culturedcode.com/things/support/articles/2249437/) feature and later use this script to migrate those notes to Notion. See [Scripts](#scripts) to learn how to run a specific script.
@@ -112,7 +115,6 @@ Double click `Things3NotionScript.alfredworkflow` to import into Alfred (assumin
 - gotta have env setup
 - you can debug the workflow with this:
 - ![CleanShot 2023-01-13 at 21 26 55@2x](https://user-images.githubusercontent.com/53503018/212457477-6748f80b-49d9-4b85-aab2-2d1e57006ab9.png)
-
 
 ## References
 
