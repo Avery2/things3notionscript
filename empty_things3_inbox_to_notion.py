@@ -42,8 +42,8 @@ def addContentToBlock(
             content_ = [tn.create_heading("")] + content
     try:
         notion.blocks.children.append(block_id, children=content_)
-    except:
-        print(f"failed call to addContentToBlock() where {block_id=} {content_=}")
+    except Exception as e:
+        print(f"failed call to addContentToBlock() where {block_id=} {content_=} because {e=}")
         return False
     return True
 
@@ -112,7 +112,6 @@ if __name__ == "__main__":
     tn.saveLastBlockID(block_id, CLIonly)
 
     migrate_empty_titles = promptYN("Migrate todo items with no title", True)
-    # migrate_full_titles = promptYN("Migrate todo items with a title")
     migrate_full_titles = False
     migrate_date_titles = True
 
@@ -130,6 +129,8 @@ if __name__ == "__main__":
 
     todo_item_ids = []
     # empty named todo items in Things3 inbox
+    # EXAMPLE ITEM {'uuid': 'E9LkoqBLAiJHdKWvPkCSk8', 'type': 'to-do', 'title': '', 'status': 'incomplete', 'notes': 'skdljaskldjdlakjlk', 'tags': ['add as resource'], 'start': 'Inbox', 'start_date': None, 'deadline': None, 'stop_date': None, 'created': '2023-01-22 22:38:30', 'modified': '2023-01-22 22:38:36', 'index': -33736, 'today_index': 0}
+    TABS_TO_MIGRATE = set(['migrate to notion'])
     itemsToMigrate = [
         todo
         for todo in inbox
@@ -137,6 +138,7 @@ if __name__ == "__main__":
             (migrate_empty_titles and todo["title"] == "")
             or (migrate_full_titles and todo["title"] != "")
             or (migrate_date_titles and isDate(todo["title"]))
+            or ('tags' in todo and len(list(set(todo['tags']) & TABS_TO_MIGRATE)) > 0)
         )
     ]
     export_locations = list([2 if isDate(todo["title"], allowBlank=False) else 1 for todo in itemsToMigrate])
