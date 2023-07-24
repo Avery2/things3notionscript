@@ -168,10 +168,8 @@ if __name__ == "__main__":
     notes_dict = [tn.obj_from_md(o) for o in notes_raw]
     todo_item_ids = [o["uuid"] for o in itemsToMigrate]
 
-    as_callouts = promptYN("Migrate as callout blocks?", True)
+    as_callouts = False
     add_empty_headers = False
-    if not as_callouts:
-        add_empty_headers = promptYN("Add empty headers when necessary?")
 
     num_written = 0
     # write to notion
