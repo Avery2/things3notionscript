@@ -194,7 +194,7 @@ if __name__ == "__main__":
 
         if addContentToBlock(
             writeToBlockId,
-            note_content,
+            note_content[1:] if bad_title_parsing else note_content,
             title=str(bad_title_parsing),
             padded=False,
             blank_header=add_empty_headers,
