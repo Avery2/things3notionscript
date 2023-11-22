@@ -205,17 +205,13 @@ def parse_arr_to_obj(arr):
             obj_.append(create_paragraph(c))
     return obj_
 
-def saveLastBlockID(blockID, CLIonly):
-    url = last_url_filename
-    if CLIonly:
-        url = alfred_filepath_extension + last_url_filename
+def saveLastBlockID(blockID):
+    url = alfred_filepath_extension + last_url_filename
     with open(url, 'w') as f:
         f.write(blockID)
 
-def getLastBlockID(CLIonly):
-    url = last_url_filename
-    if CLIonly:
-        url = alfred_filepath_extension + last_url_filename
+def getLastBlockID():
+    url = alfred_filepath_extension + last_url_filename
     with open(url, 'r') as f:
         return f.read()
 

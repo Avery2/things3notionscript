@@ -10,9 +10,6 @@ import os
 import re
 import sys
 
-# this toggles if this runs as a python script to be run from terminal manually or as an alfred workflow (so CLI only)
-CLIonly = True
-
 # just for me, I have a diff page I like to put the "date" notes into
 MOMENT_PAGE_CAPTURE_ID = os.getenv("MOMENT_PAGE_CAPTURE_ID")
 MOMENT_PAGE_WORK_ID = os.getenv("MOMENT_PAGE_WORK_ID")
@@ -21,12 +18,9 @@ class ExportLocation(Enum):
     CAPTURE = 2
     WORK = 3
 
-
-
 def addParagraphToBlock(block_id, paragraph_content):
     block = tn.create_paragraph(paragraph_content)
     notion.blocks.children.append(block_id, children=[block])
-
 
 def addContentToBlock(
     block_id, content: list, *, title="", padded=True, blank_header=False, as_type: tn.BlockTypes=None
@@ -47,23 +41,6 @@ def addContentToBlock(
         print(f"failed call to addContentToBlock() where {block_id=} {content_=} because {e=}")
         return False
     return True
-
-def promptYN(prompt, overrideAsTrue):
-    if overrideAsTrue or CLIonly:
-        return overrideAsTrue
-    response = False
-    while True:
-        print(f"{prompt} [y/n] ", end="")
-        res = input().lower().strip()
-        if res == "y":
-            response = True
-            break
-        if res == "n":
-            response = False
-            break
-        print("Invalid response. Type 'y' or 'n'")
-    return response
-
 
 def getProjectTasks(amplitude_projects_uuids):
     for uuid in amplitude_projects_uuids:
@@ -99,20 +76,17 @@ if __name__ == "__main__":
     block_id = ""
     # example id: ede03723649543a3a4cedc3065faaa8f
     while not block_id:
-        if CLIonly and query:
+        if query:
             block_id = query.strip().split("-")[-1]
-        if not CLIonly:
-            print("Input block ID or URL: ", end="")
-            block_id = input().strip().split("-")[-1]
         if not block_id:
-            block_id = tn.getLastBlockID(CLIonly)
+            block_id = tn.getLastBlockID()
         block_id = re.match(r"[a-zA-Z\d]{32}", block_id)[0]
         if not block_id:
             print(f'Invalid ID: "{block_id}"')
 
-    tn.saveLastBlockID(block_id, CLIonly)
+    tn.saveLastBlockID(block_id)
 
-    migrate_empty_titles = promptYN("Migrate todo items with no title", True)
+    migrate_empty_titles = True
     migrate_full_titles = False
     migrate_date_titles = True
 
