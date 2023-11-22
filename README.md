@@ -2,17 +2,6 @@
 
 Things3 to Notion workflow. I write notes using Things3 (leveraging the [quick capture](https://culturedcode.com/things/support/articles/2249437/) feature) and use this script to migrate those notes to Notion. It will migrate notes in the inbox with no title, or notes with the `migrate to notion` tag.
 
-### Scripts
-
-- `empty_things3_inbox_to_notion.py`
-    - Description
-        - Takes a block id (i.e. `bf14e6e54b74464db2d2483e114455a6`) and takes all things3 inbox items with an empty title and copies them to that block (or page). You can get this link with `command + L` or from the end of the Notion URL.
-    - Instructions
-        - Setup the `.env` file (see `[.env` setup](notion://www.notion.so/avery2/c6efe5c895d64a779d0a60cc9023aa50?v=0b5002f4c2094a64b019534003e045c2&p=e67fc39e8ee34c59b891a037f723dc57&pm=s#env-setup))
-        - Use this to enable permissions for the script
-            - `chmod a+x empty_things3_inbox_to_notion.py`
-        - Run the script with `python3 empty_things3_inbox_to_notion.py`
-
 ### Setup
 
 - Library installs
@@ -28,6 +17,17 @@ Things3 to Notion workflow. I write notes using Things3 (leveraging the [quick c
     - Setup the `.env` file, then you can use the scripts.
         - Get a [secret token](https://developers.notion.com/docs/authorization) from an [Notion integration](https://www.notion.so/help/create-integrations-with-the-notion-api).
         - Set variable `NOTION_TOKEN` equal to your secret token.
+### Scripts
+
+- `empty_things3_inbox_to_notion.py`
+    - Description
+        - Takes a block id (i.e. `bf14e6e54b74464db2d2483e114455a6`) and migrates the things3 inbox items to that block (or page).
+            - You can get this link with `command + L` or from the end of the Notion URL.
+    - Setup Instructions
+        - Setup the `.env` file (see `[.env` setup](notion://www.notion.so/avery2/c6efe5c895d64a779d0a60cc9023aa50?v=0b5002f4c2094a64b019534003e045c2&p=e67fc39e8ee34c59b891a037f723dc57&pm=s#env-setup))
+        - Use this to enable permissions for the script
+            - `chmod a+x empty_things3_inbox_to_notion.py`
+        - Run the script with `python3 empty_things3_inbox_to_notion.py`
 
 ### Debug
 - Make sure your Things3 is up to date. This broke the Things3 python library for me before
