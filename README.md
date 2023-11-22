@@ -28,7 +28,7 @@ Things3 to Notion workflow. I write notes using Things3 (leveraging the [quick c
         - Install required libraries (see library installs)
         - Setup the `.env` file (see `.env` setup]
         - Enable permissions for the script: `chmod a+x empty_things3_inbox_to_notion.py`
-        - Run the script: `python3 empty_things3_inbox_to_notion.py`
+        - Run the script: `python3 empty_things3_inbox_to_notion.py [block ID]`
 
 ### Debug
 - Make sure your Things3 is up to date. This broke the Things3 python library for me before
