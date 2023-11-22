@@ -32,3 +32,4 @@
     - [Notion python sdk](https://github.com/ramnes/notion-sdk-py) (most used in `api_endpoints.py`)
     - Why I like [quick capture](https://culturedcode.com/things/support/articles/2249437/): to [Close open loops](https://notes.andymatuschak.org/z8d4eJNaKrVDGTFpqRnQUPRkexB7K6XbcffAV)
     - Setup ChronTab: https://betterprogramming.pub/how-to-execute-a-cron-job-on-mac-with-crontab-b2decf2968eb which means to make script run on regular basis
+    - I leverage [Things3's Applescript Support](https://culturedcode.com/things/support/articles/2803572/)https://culturedcode.com/things/support/articles/2803572/
