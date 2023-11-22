@@ -97,17 +97,6 @@ Setup the `.env` file, then you can use the scripts.
 - Get a [secret token](https://developers.notion.com/docs/authorization) from an [Notion integration](https://www.notion.so/help/create-integrations-with-the-notion-api).
 - Set variable `NOTION_TOKEN` equal to your secret token.
 
-### Alfred workflow
-
-Assumes a local version of this repository is in `~/Library/Application Support/Alfred/Alfred.alfredpreferences/workflows/things3notionscript`. You may have to run `chmod a+x *.py` or `chmod 777 *.py` to enable the script.
-
-Double click `Things3NotionScript.alfredworkflow` to import into Alfred (assuming [alfred](https://www.alfredapp.com/) is installed)
-
-- this repo must be named `things3notionscript`
-- gotta have env setup
-- you can debug the workflow with this:
-- ![CleanShot 2023-01-13 at 21 26 55@2x](https://user-images.githubusercontent.com/53503018/212457477-6748f80b-49d9-4b85-aab2-2d1e57006ab9.png)
-
 ## References
 
 - [Things3 python library](https://github.com/thingsapi/things.py#documentation)
