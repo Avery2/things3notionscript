@@ -33,6 +33,9 @@
         - Get a [secret token](https://developers.notion.com/docs/authorization) from an [Notion integration](https://www.notion.so/help/create-integrations-with-the-notion-api).
         - Set variable `NOTION_TOKEN` equal to your secret token.
 
+### Debug
+- Make sure your Things3 is up to date. This broke the Things3 python library for me before
+
 ### References
 
 - [Things3 python library](https://github.com/thingsapi/things.py#documentation)
