@@ -10,9 +10,6 @@ import os
 import re
 import sys
 
-# just for me, I have a diff page I like to put the "date" notes into
-MOMENT_PAGE_CAPTURE_ID = os.getenv("MOMENT_PAGE_CAPTURE_ID")
-MOMENT_PAGE_WORK_ID = os.getenv("MOMENT_PAGE_WORK_ID")
 class ExportLocation(Enum):
     THINGS_3_DUMP = 1
     CAPTURE = 2
@@ -42,39 +39,16 @@ def addContentToBlock(
         return False
     return True
 
-def getProjectTasks(amplitude_projects_uuids):
-    for uuid in amplitude_projects_uuids:
-        for task in things.projects(uuid)['items']:
-            yield task
-
-def getAreaTasks(amplitude_areas_uuids):
-    for uuid in amplitude_areas_uuids:
-        for task in things.areas(uuid, include_items=True)['items']:
-            yield task
-
 if __name__ == "__main__":
     # setup
     my_token = os.getenv("NOTION_TOKEN")
     notion = Client(auth=my_token)
     inbox = things.inbox()
 
-    # just for me
-    amplitude_projects = [(p['uuid'], p['title'].lower(), p['title']) for p in things.projects()]
-    amplitude_areas = [(a['uuid'], a['title'].lower(), a['title']) for a in things.areas()]
-
-    amplitude_projects=list(filter(lambda x: x[1].find("amplitude") != -1, amplitude_projects))
-    amplitude_areas=list(filter(lambda x: x[1].find("amplitude") != -1, amplitude_areas))
-    amplitude_projects_uuids=[e[0] for e in amplitude_projects]
-    amplitude_areas_uuids=[e[0] for e in amplitude_areas]
-
-    amplitude_project_names = [e[2] for e in amplitude_projects]
-    amplitude_area_names = [e[2] for e in amplitude_areas]
-
     query = None
     if len(sys.argv) > 1:
         query = sys.argv[1]
     block_id = ""
-    # example id: ede03723649543a3a4cedc3065faaa8f
     while not block_id:
         if query:
             block_id = query.strip().split("-")[-1]
@@ -91,8 +65,6 @@ if __name__ == "__main__":
     migrate_date_titles = True
 
     todo_item_ids = []
-    # empty named todo items in Things3 inbox
-    # EXAMPLE ITEM {'uuid': 'E9LkoqBLAiJHdKWvPkCSk8', 'type': 'to-do', 'title': '', 'status': 'incomplete', 'notes': 'skdljaskldjdlakjlk', 'tags': ['add as resource'], 'start': 'Inbox', 'start_date': None, 'deadline': None, 'stop_date': None, 'created': '2023-01-22 22:38:30', 'modified': '2023-01-22 22:38:36', 'index': -33736, 'today_index': 0}
     TABGS_TO_MIGRATE = set(['migrate to notion'])
     itemsToMigrate = [
         todo
@@ -144,7 +116,7 @@ if __name__ == "__main__":
             as_type=block_type
         ):
             num_written += 1
-            tn.deleteTodoItemWithID(note_id, area_names=amplitude_area_names, project_names=amplitude_project_names)
+            tn.deleteTodoItemWithID(note_id)
         print(f"{i=} {block_id=}")
         if i % 10:
             print(f"processing items... [{i=}]")
