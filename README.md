@@ -53,16 +53,6 @@ Part of my workflow using Things3 and Notion. I write all my notes in Things3's 
     - `chmod a+x empty_things3_inbox_to_notion.py`
   - Run the script with `python3 empty_things3_inbox_to_notion.py`
 
-### `sync_notiondb_with_things3.py`
-
-#### Description
-
-One-way sync from things3 to a specified notion database. So that you can have context and notes in Notion, but track progress metadata in Things3.
-
-<details><summary>Screenshot of resulting Notion database [click to expand]</summary>
-  <img width="1840" alt="image" src="https://user-images.githubusercontent.com/53503018/200147235-30ffb84a-621e-4f44-829a-a6789b52bb1e.png">
-</details>
-
 
 # Instructions
 
@@ -120,7 +110,6 @@ Double click `Things3NotionScript.alfredworkflow` to import into Alfred (assumin
 
 ## References
 
-- `crontab -l` list all chron
 - [Things3 python library](https://github.com/thingsapi/things.py#documentation)
 - [Notion API docs](https://developers.notion.com/docs/getting-started)
 - [Notion python sdk](https://github.com/ramnes/notion-sdk-py) (most used in `api_endpoints.py`)
