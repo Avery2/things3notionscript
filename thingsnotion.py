@@ -32,54 +32,6 @@ class BlockTypes(Enum):
     CHILD_DATABASE="child_database"
     TABLE="table"
 
-def getProject(project_title: str):
-        """Returns a project of the given name"""
-        all_projects = things.projects()
-        project = [p for p in all_projects if p["title"] == project_title][0]
-        return project
-
-def getInbox():
-    return things.inbox()
-
-def title_notes(project):
-    todos = things.todos(project["uuid"])
-    l = []
-    for item in todos["items"]:
-        title = item['title']
-        notes = item['notes']
-        if not notes:
-            notes = ''
-        if title:
-            l.append((title, notes))
-    return l
-
-def getDatabase(client: Client, db_title: str):
-    dbs = [db for db in client.databases.list()['results']]
-    db = list(filter(lambda x: x['title'][0]['plain_text'] == db_title, dbs))[0]
-    return db
-
-def create_empty_page(client, parent_db, title=None):
-    PARENT_DB = {
-        "database_id": parent_db['id']
-    }
-
-    if not title:
-        t = time.strftime("%H:%M:%S", time.localtime())
-        title = f"Blank page created at {t}"
-
-    PROPERTIES = {
-        "title": [{"type": "text", "text": {"content": title}}],
-    }
-
-    created_page = client.pages.create(
-        **{
-            "parent": PARENT_DB,
-            "properties": PROPERTIES
-        }
-    )
-
-    return created_page
-
 def create_heading(content, level=1):
     level = min(level, 3)
     return {
@@ -135,29 +87,6 @@ def create_toggle_block(title='', children=[]):
         },
     }
 
-# todo: use this method to replace all the create block objects == even just subsume them -- simplify API even if logic isn't too much cleaner
-"""
-def create_block(type: BlockTypes, title='', children=[]):
-    obj = {
-        "object": 'block',
-        "type": type,
-        "has_children": bool(children),
-        type: {
-            "rich_text": [{
-                "type": "text",
-                "text": {
-                    "content": title,
-                },
-            }],
-            "color": "default"
-        },
-    }
-
-    if children:
-        obj[type]["children"] = children
-    return obj
-"""
-
 def create_paragraph(content):
     return {
         "object": 'block',
@@ -172,7 +101,6 @@ def create_paragraph(content):
                   },
               },
             ],
-        # "children": []
         },
     }
 

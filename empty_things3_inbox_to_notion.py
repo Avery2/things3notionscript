@@ -180,6 +180,5 @@ if __name__ == "__main__":
         if i % 10:
             print(f"processing items... [{i=}]")
 
-    # tn.deleteBlankInboxItems()
     returnMessage = f"Wrote {num_written} objects. [{block_id=}]"
     print(returnMessage)
