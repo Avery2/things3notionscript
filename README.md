@@ -1,7 +1,6 @@
-### Notes
+### Description
 
-- What is this?
-    - Things3 to Notion workflow. I write notes using Things3 (leveraging the [quick capture](https://culturedcode.com/things/support/articles/2249437/) feature) and use this script to migrate those notes to Notion. It will migrate notes in the inbox with no title, or notes with the `migrate to notion` tag.
+Things3 to Notion workflow. I write notes using Things3 (leveraging the [quick capture](https://culturedcode.com/things/support/articles/2249437/) feature) and use this script to migrate those notes to Notion. It will migrate notes in the inbox with no title, or notes with the `migrate to notion` tag.
 
 ### Scripts
 
