@@ -20,15 +20,13 @@ Things3 to Notion workflow. I write notes using Things3 (leveraging the [quick c
 
 ### Scripts
 
-- `empty_things3_inbox_to_notion.py`
-    - Description
-        - Takes a block id (i.e. `bf14e6e54b74464db2d2483e114455a6`) and migrates the things3 inbox items to that block (or page).
-            - You can get this link with `command + L` or from the end of the Notion URL.
+- `empty_things3_inbox_to_notion.py`: Takes a block id (i.e. `bf14e6e54b74464db2d2483e114455a6`) and migrates the things3 inbox items to that block (or page). You can get this link with `command + L` or from the end of the Notion URL.
     - Setup Instructions
         - Install required libraries (see library installs)
         - Setup the `.env` file (see `.env` setup]
         - Enable permissions for the script: `chmod a+x empty_things3_inbox_to_notion.py`
         - Run the script: `python3 empty_things3_inbox_to_notion.py [block ID]`
+            - If no `block ID` given, it will try to infer from last used block ID
 
 ### Debug
 - Make sure your Things3 is up to date. This broke the Things3 python library for me before
