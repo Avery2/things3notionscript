@@ -76,7 +76,9 @@ download `things`
 
 ```
 pip3 install things.py
-# or
+```
+or
+```
 git clone https://github.com/thingsapi/things.py && cd things.py && make install
 ```
 
