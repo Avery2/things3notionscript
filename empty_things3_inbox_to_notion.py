@@ -90,42 +90,19 @@ if __name__ == "__main__":
     migrate_full_titles = False
     migrate_date_titles = True
 
-    def isDate(possibleDate: str, allowBlank=True):
-        returnedMatches = re.match(
-            r"(?i)((jan|feb|mar|apr|may|jun|jul|aug|sep|nov|dec)\s*\d+\,?\s*\s\d+\s\d+\:\d+\:\d+ (AM|PM))|((monday|tuesday|wednesday|thursday|friday|saturday|sunday)?\,?\s*(jan|feb|mar|apr|may|jun|jul|aug|sep|nov|dec)\s*\d+.{0,2}\,\s*\d{4}\s*(AM|PM)?(\d+\:\d+\s*\:?\d*\s?(AM|PM)?)?)$",
-            possibleDate.strip(),
-        )
-        if allowBlank:
-            if possibleDate.strip() == "":
-                return True
-        if not returnedMatches:
-            return False
-        return True
-
     todo_item_ids = []
     # empty named todo items in Things3 inbox
     # EXAMPLE ITEM {'uuid': 'E9LkoqBLAiJHdKWvPkCSk8', 'type': 'to-do', 'title': '', 'status': 'incomplete', 'notes': 'skdljaskldjdlakjlk', 'tags': ['add as resource'], 'start': 'Inbox', 'start_date': None, 'deadline': None, 'stop_date': None, 'created': '2023-01-22 22:38:30', 'modified': '2023-01-22 22:38:36', 'index': -33736, 'today_index': 0}
-    TABS_TO_MIGRATE = set(['migrate to notion'])
+    TABGS_TO_MIGRATE = set(['migrate to notion'])
     itemsToMigrate = [
         todo
         for todo in inbox
         if (
             (migrate_empty_titles and todo["title"] == "")
             or (migrate_full_titles and todo["title"] != "")
-            or (migrate_date_titles and isDate(todo["title"]))
-            or ('tags' in todo and len(list(set(todo['tags']) & TABS_TO_MIGRATE)) > 0)
+            or ('tags' in todo and len(list(set(todo['tags']) & TABGS_TO_MIGRATE)) > 0)
         )
     ]
-    export_locations = list([2 if isDate(todo["title"], allowBlank=False) else 1 for todo in itemsToMigrate])
-    project_tasks = list(filter(lambda x: migrate_date_titles and isDate(x['title']), getProjectTasks(amplitude_projects_uuids)))
-    area_tasks = list(filter(lambda x: migrate_date_titles and isDate(x['title']), getAreaTasks(amplitude_areas_uuids)))
-    itemsToMigrate += project_tasks
-    print(f"{export_locations=}")
-    export_locations += [3 for t in project_tasks]
-    itemsToMigrate += area_tasks
-    export_locations += [3 for t in area_tasks]
-
-    print(f"{export_locations=}")
 
     if migrate_full_titles:
         notes_raw = [
@@ -147,17 +124,9 @@ if __name__ == "__main__":
 
     num_written = 0
     # write to notion
-    for i, (note_content, note_id, export_location) in enumerate(zip(
-        notes_dict, todo_item_ids, export_locations
+    for i, (note_content, note_id) in enumerate(zip(
+        notes_dict, todo_item_ids
     )):
-        if export_location == 3:
-            writeToBlockId = MOMENT_PAGE_WORK_ID
-        elif export_location == 2:
-            writeToBlockId = MOMENT_PAGE_CAPTURE_ID
-            as_callouts = False
-        else:
-            writeToBlockId = block_id
-
         block_type = tn.BlockTypes.CALLOUT if as_callouts else tn.BlockTypes.TOGGLE
 
         # hack: this is fragile way to parse the title from the content, need to refactor to get this -- ideally parse from the raw markdown
@@ -167,7 +136,7 @@ if __name__ == "__main__":
             bad_title_parsing = ""
 
         if addContentToBlock(
-            writeToBlockId,
+            block_id,
             note_content[1:] if bad_title_parsing else note_content,
             title=str(bad_title_parsing),
             padded=False,
@@ -176,7 +145,7 @@ if __name__ == "__main__":
         ):
             num_written += 1
             tn.deleteTodoItemWithID(note_id, area_names=amplitude_area_names, project_names=amplitude_project_names)
-        print(f"{i=} {export_location=} {writeToBlockId=}")
+        print(f"{i=} {block_id=}")
         if i % 10:
             print(f"processing items... [{i=}]")
 
