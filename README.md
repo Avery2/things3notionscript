@@ -10,7 +10,7 @@ Things3 to Notion workflow. I write notes using Things3 (leveraging the [quick c
     - download `dotenv`
         - `pip3 install python-dotenv`
     - download `notion_client`
-        - `pip3 install notion-clien`
+        - `pip3 install notion-client`
     - download library to call applescript:
         - `pip3 install pyobjc`
 - `.env` setup
