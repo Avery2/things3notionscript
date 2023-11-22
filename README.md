@@ -35,7 +35,6 @@ Things3 to Notion workflow. I write notes using Things3 (leveraging the [quick c
 
 - [Things3 python library](https://github.com/thingsapi/things.py#documentation)
 - [Notion API docs](https://developers.notion.com/docs/getting-started)
-- [Notion python sdk](https://github.com/ramnes/notion-sdk-py) (most used in `api_endpoints.py`)
+- [Notion python sdk](https://github.com/ramnes/notion-sdk-py)
 - Why I like [quick capture](https://culturedcode.com/things/support/articles/2249437/): to [Close open loops](https://notes.andymatuschak.org/z8d4eJNaKrVDGTFpqRnQUPRkexB7K6XbcffAV)
-- Setup ChronTab: https://betterprogramming.pub/how-to-execute-a-cron-job-on-mac-with-crontab-b2decf2968eb which means to make script run on regular basis
-- I leverage [Things3's Applescript Support](https://culturedcode.com/things/support/articles/2803572/)
+- [Things3's Applescript Support](https://culturedcode.com/things/support/articles/2803572/)
