@@ -1,16 +1,13 @@
 ### Notes
 
 - What is this?
-    - Part of my workflow using Things3 and Notion. I write all my notes in Things3's [quick capture](https://culturedcode.com/things/support/articles/2249437/) feature and later use this script to migrate those notes to Notion.
-- migrates todos in inbox with the `migrate to notion` tag
-- migrates todos with no name in inbox
+    - Things3 to Notion workflow. I write notes using Things3 (leveraging the [quick capture](https://culturedcode.com/things/support/articles/2249437/) feature) and use this script to migrate those notes to Notion. It will migrate notes in the inbox with no title, or notes with the `migrate to notion` tag.
 
 ### Scripts
 
 - `empty_things3_inbox_to_notion.py`
     - Description
         - Takes a block id (i.e. `bf14e6e54b74464db2d2483e114455a6`) and takes all things3 inbox items with an empty title and copies them to that block (or page). You can get this link with `command + L` or from the end of the Notion URL.
-        - Created because I write notes using Things3 quick capture and markdown support and mark them as a note by having no name for the to-do item.
     - Instructions
         - Setup the `.env` file (see `[.env` setup](notion://www.notion.so/avery2/c6efe5c895d64a779d0a60cc9023aa50?v=0b5002f4c2094a64b019534003e045c2&p=e67fc39e8ee34c59b891a037f723dc57&pm=s#env-setup))
         - Use this to enable permissions for the script
