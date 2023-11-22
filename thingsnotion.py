@@ -1,8 +1,5 @@
-import things
 import os
 from dotenv import load_dotenv
-from notion_client import Client
-import time
 from Foundation import NSAppleScript
 from enum import Enum
 
@@ -10,13 +7,10 @@ load_dotenv()
 my_key = os.getenv("DB_ID")
 my_token = os.getenv("NOTION_TOKEN")
 last_url_filename = '.lastblockid'
-# alfred_filepath_extension = "../things3notionscript/"
-# filepath to "things3notionscript" folder
 alfred_filepath_extension = os.getenv("ALFRED_FILEPATH")
 if (alfred_filepath_extension[-1] != '/'):
     alfred_filepath_extension += '/'
 
-# Block types which support children are “paragraph”, “bulleted_list_item”, “numbered_list_item”, “toggle”, “to_do”, “quote”, “callout”, “synced_block”, “template”, “column”, “child_page”, “child_database”, and “table”. All heading blocks (“heading_1”, “heading_2”, and “heading_3”) support children when the is_toggleable property is true.
 class BlockTypes(Enum):
     PARAGRAPH="paragraph"
     BULLETED_LIST_ITEM="bulleted_list_item"
