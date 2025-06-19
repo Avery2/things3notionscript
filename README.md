@@ -4,15 +4,25 @@ Things3 to Notion workflow to migrate Things3 "notes" (items in the inbox with n
 
 ### Setup
 
-- Library installs
-    - `pip3 install things.py`
-    - `pip3 install python-dotenv`
-    - `pip3 install notion-client`
-    - `pip3 install pyobjc`
-- `.env` setup
-    - Setup the `.env` file, then you can use the scripts.
-        - Get a [secret token](https://developers.notion.com/docs/authorization) from an [Notion integration](https://www.notion.so/help/create-integrations-with-the-notion-api) [here](https://www.notion.so/profile/integrations).
-        - Set variable `NOTION_TOKEN` equal to your secret token.
+#### Library installs
+- `pip3 install things.py`
+- `pip3 install python-dotenv`
+- `pip3 install notion-client`
+- `pip3 install pyobjc`
+#### `.env` setup
+- Setup the `.env` file, then you can use the scripts.
+    - Get a [secret token](https://developers.notion.com/docs/authorization) from an [Notion integration](https://www.notion.so/help/create-integrations-with-the-notion-api) [here](https://www.notion.so/profile/integrations).
+    - Set variable `NOTION_TOKEN` equal to your secret token.
+
+You can use this template
+
+```
+DB_ID=""
+NOTION_TOKEN=""
+ALFRED_FILEPATH=""
+MOMENT_PAGE_CAPTURE_ID=""
+MOMENT_PAGE_WORK_ID=""
+```
 
 ### Scripts
 
